@@ -127,10 +127,14 @@ chargés prototypages et documentation
 - Dépôt GIT
 - Cahier des charges
 
-= Echéancier
-
 #figure(
   image("wbs-WBS.drawio.svg",
   format: "svg",
   )
+)
+= Echéancier
+
+#figure(
+  image("SCANGUI.png",
+  width: 100%)
 )
