@@ -41,11 +41,11 @@ Le but du projet est de réaliser une interface graphique principale pour le log
 == Exigences non-fonctionnelles 
 -  Le programme doit être performant et léger
 -  Le programme doit être développé de manière maintenable
--  #strike[Le programme doit proposer des fonctions unitaire]
+// -  #strike[Le programme doit proposer des fonctions unitaire]
 // ne pas modifier autre chose que les paramètres
 -  Le programme doit proposer une documentation utilisateur devra être robuste, mais minimale et simple
 -  Le programme doit être développé dans un des langages mentionnés Qt C++, GTK Rust
--  #strike[Le programme ne doit pas utiliser de templates (méta-programmation)]
+// -  #strike[Le programme ne doit pas utiliser de templates (méta-programmation)]
 // pas une obligation
 -  Le programme doit proposer une interface simple pour tout utilisateur (informaticien on non)
 -  Le programme doit être open source sous licence APACHE2
