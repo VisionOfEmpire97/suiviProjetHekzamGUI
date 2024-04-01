@@ -4,7 +4,7 @@
   right_header : [Equipe scan-GUI-Automne-2024],
   title: [Projet Hekzam-GUI],
   subtitle: [Cahier des charges],
-  version: [0.2],
+  version: [1.0],
   doc
 )
 //TODO : make it so requirement list numbering keeps incrementing properly past other headings
