@@ -36,7 +36,7 @@ Le but du projet est de réaliser une interface graphique principale pour le log
 - *programme* : Logiciel Hekzam complet#link("https://github.com/hekzam")[(GUI + parser + generator)], supposé fonctionnel
 - *pages*: image extraite d'un fichier pdf; scan d'une page associé à une page d'un sujet
 - *copie*: ensemble de pages regroupées, l'ensemble formant une copie d'examen associée à un étudiant 
-
+#pagebreak()
 = Capture du besoin
 == Exigences non-fonctionnelles 
 -  Le programme doit être performant et léger
@@ -57,43 +57,56 @@ Le but du projet est de réaliser une interface graphique principale pour le log
 -  Les fonctionnalités (features) devront être séparées sous différentes branches dans GitHub 
 == Exigence fonctionnelles
 // mieux sous forme de schéma ?
-=== Création du sujet
-- L'utilisateur doit pouvoir accéder aux autres fonctionnalités du programme après avoir satisfait l'une de ces pré-conditions 
-  - L'utilisateur doit pouvoir *ouvrir* un "projet" localisé dans un dossier
-  - L'utilisateur doit pouvoir *créer* un projet en sélectionnant un fichier source
+// #show figure: set block(breakable: true)
+#figure(
+  image("Exigences_f1.svg"
+  ),
+)
+#figure(
+    image("Exigences_f2.svg"    
+  ),
+)
+#figure(
+  image("Exigences_f3.svg"    
+  ),
+)
+// === Création du sujet
+// - L'utilisateur doit pouvoir accéder aux autres fonctionnalités du programme après avoir satisfait l'une de ces pré-conditions 
+//   - L'utilisateur doit pouvoir *ouvrir* un "projet" localisé dans un dossier
+//   - L'utilisateur doit pouvoir *créer* un projet en sélectionnant un fichier source
 
 
-=== Import des copies scannées
-#set enum(start: 6) //why do I have to do this
-- L'utilisateur devrait pouvoir importer tout ou partie des items suivants: 
-  - un *fichier de scans de copies* au format pdf 
-  - des scans de copies au format jpeg
+// === Import des copies scannées
+// #set enum(start: 6) //why do I have to do this
+// - L'utilisateur devrait pouvoir importer tout ou partie des items suivants: 
+//   - un *fichier de scans de copies* au format pdf 
+//   - des scans de copies au format jpeg
 
-=== Identification des pages en copies 
-#set enum(start: 9)
-- L'utilisateur devrait pouvoir importer une "*feuille de présence*" ( liste de copies attendues) qui devrait être analysable par le programme *ou* garder les copies anonymes.
-- L'interface devra remonter si certaines copies manquent en fonction du nombre d'entrées présentes sur la feuille de présence
+// === Identification des pages en copies 
+// #set enum(start: 9)
+// - L'utilisateur devrait pouvoir importer une "*feuille de présence*" ( liste de copies attendues) qui devrait être analysable par le programme *ou* garder les copies anonymes.
+// - L'interface devra remonter si certaines copies manquent en fonction du nombre d'entrées présentes sur la feuille de présence
 
-=== Analyse de la copie
-#set enum(start: 12)
-- L'interface devra indiquer à l'utilisateur la qualité des scans grâce à des indicateur numériques (RMSE, taux de certitude...)
-- L'interface devra porter à l'attention de l'utilisateur les erreurs :
-  - relatives à la qualité de la numérisation
-  - syntaxiques
-  - sémantiques
-- Le programme devra porter à l'attention de l'utilisateur si certaines copies scannées sont *illisibles* par le parser, ou se trouve en deçà d'un *seuil d'acceptabilité*
+// === Analyse de la copie
+// #set enum(start: 12)
+// - L'interface devra indiquer à l'utilisateur la qualité des scans grâce à des indicateur numériques (RMSE, taux de certitude...)
+// - L'interface devra porter à l'attention de l'utilisateur les erreurs :
+//   - relatives à la qualité de la numérisation
+//   - syntaxiques
+//   - sémantiques
+// - Le programme devra porter à l'attention de l'utilisateur si certaines copies scannées sont *illisibles* par le parser, ou se trouve en deçà d'un *seuil d'acceptabilité*
 
-=== Correction des copies
-#set enum(start: 16)
-- Le programme devrait retourner *en sortie* des fichiers (*json?*) pour *visualiser les données*
-- le programme devrait laisser la possibilité à l’utilisateur de *modifier la correction* de chaque copie si besoin
-- L'interface devra indiquer si *l'utilisateur a modifié une valeur*, telle que réponse à une question ou numéro étudiant...
-- L'interface doit afficher chaque question présente sur chaque copie  individuellement 
+// === Correction des copies
+// #set enum(start: 16)
+// - Le programme devrait retourner *en sortie* des fichiers (*json?*) pour *visualiser les données*
+// - le programme devrait laisser la possibilité à l’utilisateur de *modifier la correction* de chaque copie si besoin
+// - L'interface devra indiquer si *l'utilisateur a modifié une valeur*, telle que réponse à une question ou numéro étudiant...
+// - L'interface doit afficher chaque question présente sur chaque copie  individuellement 
 
-=== Déroulement du programme
-#set enum(start: 23)
-- on doit pouvoir sauvegarder le projet et exporter le fichier de sortie
-- Le programme devra avoir une interface navigable au clavier
+// === Déroulement du programme
+// #set enum(start: 23)
+// - on doit pouvoir sauvegarder le projet et exporter le fichier de sortie
+// - Le programme devra avoir une interface navigable au clavier
 
 = Rôles 
 
