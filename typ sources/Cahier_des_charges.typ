@@ -4,7 +4,7 @@
   right_header : [Equipe scan-GUI-Automne-2024],
   title: [Projet Hekzam-GUI],
   subtitle: [Cahier des charges],
-  version: [1.0],
+  version: [1.1],
   doc
 )
 //TODO : make it so requirement list numbering keeps incrementing properly past other headings
@@ -59,15 +59,15 @@ Le but du projet est de réaliser une interface graphique principale pour le log
 // mieux sous forme de schéma ?
 // #show figure: set block(breakable: true)
 #figure(
-  image("Exigences_f1.svg"
+  image("Exigences_rev1_f1.svg"
   ),
 )
 #figure(
-    image("Exigences_f2.svg"    
+    image("Exigences_rev1_f2.svg"    
   ),
 )
 #figure(
-  image("Exigences_f3.svg"    
+  image("Exigences_rev1_f3.svg"    
   ),
 )
 // === Création du sujet
@@ -111,34 +111,34 @@ Le but du projet est de réaliser une interface graphique principale pour le log
 = Rôles 
 
 #figure(
-  image("wbs-OBS.drawio.svg",
-  width: 80%),
-  caption: [
-    #grid(columns: 2,
-    stroke: (x, y) => if x == 0 and y == 0 {
-      (right: (
-        paint: luma(50),
-        thickness: 1.5pt,
-        dash: "dotted"
-      ))
-    },)[
-- ROSET Nathan, SANCHEZ Emilien : 
-rédactions des spécifications et cas de tests, briques de codes
-    ][
-- YABAR Fabio, REGRAGUI MARTINS Marco :
-chargés prototypages et documentation
-    ]  
-  ]
+  image("wbs-OBS.svg",
+  width: 100%),
+//   caption: [
+//     #grid(columns: 2,
+//     stroke: (x, y) => if x == 0 and y == 0 {
+//       (right: (
+//         paint: luma(50),
+//         thickness: 1.5pt,
+//         dash: "dotted"
+//       ))
+//     },)[
+// - ROSET Nathan, SANCHEZ Emilien : 
+// rédactions des spécifications et cas de tests, briques de codes
+//     ][
+// - YABAR Fabio, REGRAGUI MARTINS Marco :
+// chargés prototypages et documentation
+//     ]  
+//   ]
 )
 
-= Travail à rendre
+= Délivrables
 - Rapport de groupe
+- Cahier des charges
+- Code prototype 
 - Comptes rendu personnels	
-- Code prototype
+- Dépôt GIT
 - Soutenance
 - Documentation utilisateur + Fichier README
-- Dépôt GIT
-- Cahier des charges
 
 #figure(
   image("wbs-WBS.drawio.svg",
