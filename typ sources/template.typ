@@ -5,7 +5,7 @@
   right_header: none,
   title: none,
   subtitle: none,
-  version: none,
+  version: [],
   doc
 ) = {
   set page(                           //page rules
@@ -21,16 +21,32 @@
       #h(1fr) #right_header
     ],
   )
+
+  set par(                            // paragraph rules
+    justify: true
+  )
+
   set text(
     font : "Noto Serif",
     size: 12pt
   )
-  
+
+  show raw : it =>[                   // verbatim/code rules
+    #set text(
+      font: "JetBrainsMono NF"
+    )
+    #it
+  ]
+
   align(center)[                      // title rules
     #heading(numbering: none)[
-      #title //TODO : if version is not indicated, don't show this
-      
-      #subtitle - _V_#emph[#version]
+      #title 
+      #parbreak()
+      #if version == [] {
+         [#subtitle]
+      } else {
+         [ #subtitle - _V_ #emph[#version]]
+      }
     ]
   ]
   set heading(                        // headings rules

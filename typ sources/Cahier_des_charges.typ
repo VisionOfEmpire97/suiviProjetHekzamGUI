@@ -1,7 +1,7 @@
 #import "template.typ": base
 #show: doc => base(
   // left_header:[],
-  right_header : [Equipe scan-GUI-Automne-2024],
+  right_header : [Equipe scan-GUI-Printemps-2024],
   title: [Projet Hekzam-GUI],
   subtitle: [Cahier des charges],
   version: [1.1],
