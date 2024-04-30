@@ -126,7 +126,7 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
 
 - *Filtrage du tableau*
   - [x] Création du champ de recherche
-  - [x] Création de la fonction simple et multiples (fuzzy search...)
+  - [ ] Création de la fonction simple et multiples (fuzzy search...)
   - [x] Création de la fonction de recherche par tags
 
 - *Visualisation du scan*
@@ -134,7 +134,7 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
   - [x] Affichage de la fenêtre de visualisation externe
 
 - *Traitement des fichiers*
-  - [x] Ouverture via menu création.
+  - [ ] Ouverture via menu création.
   - [ ] Remplissage de la structure utilisée plus tard.
   - [x] Lecture et interprétation des fichiers JSON
 
