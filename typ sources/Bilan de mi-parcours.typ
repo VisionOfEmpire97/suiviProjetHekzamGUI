@@ -1,4 +1,5 @@
 #import "template.typ": base
+#import "@preview/cheq:0.1.0": checklist
 #show: doc => base(
   // left_header:[],
   right_header : [Equipe scan-GUI-Printemps-2024],
@@ -100,55 +101,57 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
 
 #pagebreak()
 = Description des tâches
-- *Capture du Besoin*
-- *Pilotage de projet*
+#linebreak()
+#show: checklist.with(unchecked: sym.ballot, checked: sym.ballot.x)
+- [x] *Capture du Besoin*
+- [x] *Pilotage de projet*
 - *Prototypage*
-  - Spécification des exigences
-  - Création Prototype moyenne fidélité
+  - [x] Spécification des exigences
+  - [x] Création Prototype moyenne fidélité
 
 - *Conception fenêtre principale*
-  - Création du menu principal.
-  - Création du menu de création.
-  - Création du menu d'évaluation.
+  - [x] Création du menu principal.
+  - [x] Création du menu de création.
+  - [x] Création du menu d'évaluation.
 
 - *Implémentation de la barre menu.*
-  - Fonctionnalités fichier (ouvrir, sauvegarder, fermer).
-  - Fonctionnalités édition (undo, redo).
-  - Fonctionnalités d'aide (ouverture de la doc utilisateur).
+  - [ ] Fonctionnalités fichier (ouvrir, sauvegarder, fermer).
+  - [ ] Fonctionnalités édition (undo, redo).
+  - [ ] Fonctionnalités d'aide (ouverture de la doc utilisateur).
 
 - *Elaboration du tableau*
-  - Création et remplissage du tableau
-  - Implémentation d'une barre de progression sous forme de cellule
-  - Gestion de l'affichage et du tri des colonnes
+  - [x] Création et remplissage du tableau
+  - [x] Implémentation d'une barre de progression sous forme de cellule
+  - [x] Gestion de l'affichage et du tri des colonnes
 
 - *Filtrage du tableau*
-  - Création du champ de recherche
-  - Création de la fonction simple et multiples (fuzzy search...)
-  - Création de la fonction de recherche par tags
+  - [x] Création du champ de recherche
+  - [x] Création de la fonction simple et multiples (fuzzy search...)
+  - [x] Création de la fonction de recherche par tags
 
 - *Visualisation du scan*
-  - Création des différentes scènes (grille et vue globale)
-  - Affichage de la fenêtre de visualisation externe
+  - [x] Création des différentes scènes (grille et vue globale)
+  - [x] Affichage de la fenêtre de visualisation externe
 
 - *Traitement des fichiers*
-  - Ouverture via menu création.
-  - Remplissage de la structure utilisée plus tard.
-  - Lecture et interprétation des fichiers JSON
+  - [x] Ouverture via menu création.
+  - [ ] Remplissage de la structure utilisée plus tard.
+  - [x] Lecture et interprétation des fichiers JSON
 
 - *Interaction tableau/visualisation*
-  - Définition d'une interface de communication entre les modules
-  - Méthodes de correspondances entre cellules du tableau et fichiers
+  - [ ] Définition d'une interface de communication entre les modules
+  - [ ] Méthodes de correspondances entre cellules du tableau et fichiers
 
 - *Interaction avec le scan*
-  - Reglage des métriques de cadrage
-  - Interactions aves les différents champs d'une page (modifier, déplacer, highlight)
+  - [ ] Reglage des métriques de cadrage
+  - [ ] Interactions aves les différents champs d'une page (modifier, déplacer, highlight)
 
 - *Configuration de l'UI.*
-  - Options de configurations dans menu Affichage.
-  - Sauvegarde de la configuration dans un fichier.
+  - [ ] Options de configurations dans menu Affichage.
+  - [ ] Sauvegarde de la configuration dans un fichier.
 
 - *Test, déploiement, cross platform*
   - Tests non automatisés
 
 - *Prise en charge des options du CLI *
-  - options help,charger les fichiers de configs...
+  - [ ] Gestion des options (help,charger les fichiers de configs...)
