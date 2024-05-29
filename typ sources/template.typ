@@ -50,7 +50,7 @@
     ]
   ]
   set heading(                        // headings rules
-    numbering: "I.1.a"
+    numbering: "I.1.i.a"
   )
   show link : it => [                 //external links rules
     #set text(
