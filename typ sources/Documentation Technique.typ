@@ -7,7 +7,7 @@
   version: [1.0],
   doc
 )
-
+// TODO  add a front cover
 #outline(depth: 2) // TODO, heading where level < 3
 
 = Context
@@ -88,6 +88,8 @@ What’s working
 
 
 = Missing features
+- menu bar
+- modifications Table -> preview
 - counting papers submitted
 What’s not working
 [ ] Column that specifies a field’s value (checked/unchecked or sentence) and the ability to modify it directly from the table

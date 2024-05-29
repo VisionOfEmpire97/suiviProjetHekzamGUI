@@ -14,7 +14,7 @@
     numbering: "1/1",
     header: [                         //header rules
       #set text(
-        font: "Noto Mono",
+        font: "Noto Sans Mono",
         size: 10pt
         )
       #left_header
