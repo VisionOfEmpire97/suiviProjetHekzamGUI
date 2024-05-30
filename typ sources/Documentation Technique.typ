@@ -5,11 +5,37 @@
   title: [Projet Hekzam-GUI],
   subtitle: [Technical documentation],
   version: [1.0],
-  doc
+  authors:(
+    (
+    name: "REGRAGUI MARTINS Marco",
+    affiliation:"Paul Sabatier University",
+    email:"",
+    ),
+    ( 
+    name: "ROSET Nathan",
+    affiliation:"Paul Sabatier University",
+    email:"",
+    ),
+    (
+    name: "SANCHEZ Emilien",
+    affiliation:"Paul Sabatier University",
+    email:"",
+    ),
+    (
+    name: "YABAR Fabio",
+    affiliation:"Paul Sabatier University",
+    email:"",
+    ) 
+    ),
+    doc
 )
-// TODO  add a front cover
-#outline(depth: 2) // TODO, heading where level < 3
-
+// TODO Add authors
+// TODO Add a front cover
+#outline(
+  depth: 2,
+  indent: true
+)
+#pagebreak()
 = Context
 // context goes here
 
@@ -18,9 +44,9 @@
 
 - *Hekzam* : The whole program, #link("https://github.com/hekzam")[(GUI + parser + generator)], including frontend and backend.
 - *Project* : a directory regrouping all files generated during the execution by Hekzam.
-- *Exam* : Set of questions asked to students to evaluate them (fr => _Sujet d'examen_)
-- *Paper* : refers to one set of pages filled by a single student during an examination session. (fr => _Copie_)
-- *Page* : Scan of a single sheet, each uniquely identified. (fr => _page_)
+- *Exam*#footnote[_Sujet d'examen_] : Set of questions asked to students to evaluate them
+- *Paper*#footnote[_Copie_] : refers to one set of pages filled by a single student during an examination session.
+- *Page*#footnote[_page_] : Scan of a single sheet, each uniquely identified.
 
 = User Manual
 

@@ -6,6 +6,7 @@
   title: none,
   subtitle: none,
   version: [],
+  authors:(),
   doc
 ) = {
   set page(                           //page rules
@@ -20,6 +21,18 @@
       #left_header
       #h(1fr) #right_header
     ],
+  )
+  let count = authors.len()
+  let ncols = calc.min(count, 4)
+  grid(
+    columns: (1fr,) * ncols,
+    row-gutter: 20pt,
+    align: center,
+    ..authors.map(author => [
+      *#author.name * \
+      #author.affiliation \
+      #link("mailto:" + author.email)
+    ]),
   )
 
   set par(                            // paragraph rules
