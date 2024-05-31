@@ -9,10 +9,15 @@
   authors:(),
   doc
 ) = {
+  set document(                       //basic doc settings
+    author: "ROSET Nathan", 
+    title: [#title],
+    date: datetime.today()
+    )
+
   set page(                           //page rules
     paper:"a4",
     margin: (x:2cm, y:3cm),
-    numbering: "1/1",
     header: [                         //header rules
       #set text(
         font: "Noto Sans Mono",
@@ -22,18 +27,6 @@
       #h(1fr) #right_header
     ],
   )
-  let count = authors.len()
-  let ncols = calc.min(count, 4)
-  grid(
-    columns: (1fr,) * ncols,
-    row-gutter: 20pt,
-    align: center,
-    ..authors.map(author => [
-      *#author.name * \
-      #author.affiliation \
-      #link("mailto:" + author.email)
-    ]),
-  )
 
   set par(                            // paragraph rules
     justify: true
@@ -41,7 +34,7 @@
 
   set text(
     font : "Noto Serif",
-    size: 12pt
+    size: 12pt,
   )
 
   show raw : it =>[                   // verbatim/code rules
@@ -50,6 +43,8 @@
     )
     #it
   ]
+
+  v(1fr)
 
   align(center)[                      // title rules
     #heading(numbering: none)[
@@ -62,8 +57,47 @@
       }
     ]
   ]
+
+  v(1fr)
+  show grid : it =>[                  //authors
+    #set text(size: 10pt)
+    #it
+  ]
+  
+  let count = authors.len()
+  let ncols = calc.min(count, 4)
+  grid(
+    columns: (1fr,) * ncols,
+    rows: (1em, 1em),
+    row-gutter: 20pt,
+    align: center,
+    ..authors.map(author =>
+    [
+      #set par(justify:false)
+      *#author.name*
+    ]),
+    ..authors.map(author =>
+    [
+      #author.affiliation
+      #author.email
+    ])
+  )
+  counter(page).update(0)
+  set page(numbering:"1/1"  )
+
   set heading(                        // headings rules
-    numbering: "I.1.i.a"
+    numbering: (..nums) => {
+      let level = nums.pos().len()
+      // only level 1 and 2 are numbered
+      let pattern = if level == 1 {
+      "I."
+      } else if level == 2 {
+      "I.1."
+      }
+      if pattern != none {
+      numbering(pattern, ..nums)
+      }
+    }
   )
   show link : it => [                 //external links rules
     #set text(
@@ -71,6 +105,6 @@
       )
     #underline[#it]
   ]
-
+  pagebreak()
   doc
 }

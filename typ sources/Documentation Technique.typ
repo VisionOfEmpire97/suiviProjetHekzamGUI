@@ -26,19 +26,21 @@
     affiliation:"Paul Sabatier University",
     email:"",
     ) 
-    ),
+  ),
     doc
 )
 // TODO Add authors
+// Nom du tuteur sur la doc ou pas ?
 // TODO Add a front cover
 #outline(
+  title: none,
   depth: 2,
-  indent: true
+  indent: true,
 )
+
 #pagebreak()
 = Context
 // context goes here
-
 
 = Definitions
 
@@ -143,6 +145,6 @@ What’s not working
 - window position cannot be restored because Wayland
 
 = Sources
-#link("https://doc.qt.io/qt-6/qtwidgets-index.html")[Qt official documentation]
-#link("https://fr.wikipedia.org/wiki/Distance_de_Levenshtein")[Levenshtein distance]
-#link("https://fr.wikipedia.org/wiki/Distance_de_Damerau-Levenshtein")[Levenshtein-Damerau distance]
+#link("https://doc.qt.io/qt-6/qtwidgets-index.html")[Qt official documentation]\
+#link("https://fr.wikipedia.org/wiki/Distance_de_Levenshtein")[Levenshtein distance]\ 
+#link("https://fr.wikipedia.org/wiki/Distance_de_Damerau-Levenshtein")[Levenshtein-Damerau distance]\ 
