@@ -4,7 +4,7 @@
   // left_header:[],
   right_header : [Equipe scan-GUI-Printemps-2024],
   title: [Projet Hekzam-GUI],
-  subtitle: [CC2 - Bilan de mi-Parcours],
+  subtitle: [Rapport de gestion],
   version: [],
   authors:(
     (
