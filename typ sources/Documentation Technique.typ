@@ -46,8 +46,8 @@
 
 - *Hekzam* : The whole program, #link("https://github.com/hekzam")[(GUI + parser + generator)], including frontend and backend.
 - *Project* : a directory regrouping all files generated during the execution by Hekzam.
-- *Exam*#footnote[_Sujet d'examen_] : Set of questions asked to students to evaluate them
-- *Paper*#footnote[_Copie_] : refers to one set of pages filled by a single student during an examination session.
+- *Exam*#footnote[_Sujet d'examen_] : Batch of questions asked to students to evaluate them
+- *Paper*#footnote[_Copie_] : refers to one batch of pages filled by a single student during an examination session.
 - *Page*#footnote[_page_] : Scan of a single sheet, each uniquely identified.
 
 = User Manual
