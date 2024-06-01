@@ -1,5 +1,4 @@
 #import "template.typ": base
-#import "@preview/cheq:0.1.0": checklist
 #show: doc => base(
   // left_header:[],
   right_header : [Equipe scan-GUI-Printemps-2024],
@@ -32,7 +31,7 @@
 )
 #outline(
   title: none,
-  target: heading.where(level: 1)
+  // target: heading.where(level: 2)
 )
 
 = Retours personnels
@@ -114,7 +113,7 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
   fill: blue.lighten(70%),
 )[33%]
 #let f = table.cell(        // 100%
-  fill: blue.lighten(20%),
+  fill: blue.lighten(30%),
 )[100%]
 
 
@@ -128,7 +127,7 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
   [WP 1], [Pilotage projet] ,a ,a ,a ,a,
   [WP 2], [Prototypage] ,a ,a ,a ,a,
   [WP 3.1], [Conception Fenêtre Principale] ,[] ,f ,[] ,[],
-  [WP 3.1.1], [Implementation de la barre de menu] ,[] ,f ,[] ,[],
+  [WP 3.1.1], [Implémentation de la barre de menu] ,[] ,f ,[] ,[],
   [WP 3.2], [Elaboration du tableau] ,[] ,[] ,f ,[],
   [WP 3.2.2], [Filtrage du Tableau] ,[] ,[] ,[] ,f,
   [WP 3.3], [Visualisation du scan] ,f ,[] ,[] ,[],
@@ -143,7 +142,6 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
 #pagebreak()
 = Description des tâches
 #linebreak()
-#show: checklist.with(unchecked: sym.ballot, checked: sym.ballot.x)
 - [x] *Capture du Besoin*
 - [x] *Pilotage de projet*
 - *Prototypage*

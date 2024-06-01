@@ -1,3 +1,4 @@
+#import "@preview/cheq:0.1.0": checklist
 #let base(
   left_header: [
     #datetime.today().display("[day]/[month]/[year]")
@@ -29,18 +30,20 @@
     size: 12pt,
   )
 
-  show raw : it =>[                   // verbatim/code rules
-    #set text(
-      font: "JetBrainsMono NF"
+  show raw : it =>{                   // verbatim/code rules
+    set text(
+      font: "JetBrainsMono NF",
+      size: 12pt,
     )
-    #it
-  ]
-                                    // front cover rules
-  v(1fr)
+    [#it]
+  }
+
+  v(1fr)                              // front cover rules
   
   // Set colors
   let main-color = "#2CDE85" //Qt Neon Green
   let primary-color = rgb(main-color) // alpha = 100%
+
   // change alpha of primary color
   let alpha = 60%
   let secondary-color = color.mix(color.rgb(100%, 100%, 100%, alpha), primary-color, space:rgb)
@@ -69,10 +72,11 @@
   ]
 
   v(1fr)
-  show grid : it =>[                  //authors
-    #set text(size: 10pt)
-    #it
-  ]
+
+  show grid : it => {                  //authors
+    set text(size: 10pt)
+    [#it]
+  }
   
   let count = authors.len()
   let ncols = calc.min(count, 4)
@@ -105,6 +109,11 @@
     ],  
     )
 
+  set outline(
+    depth: 2,
+    indent: true,
+  )
+
   set heading(                        // headings rules
     numbering: (..nums) => {
       let level = nums.pos().len()
@@ -119,13 +128,24 @@
       }
     }
   )
-  
-  show link : it => [                 //external links rules
-    #set text(
+  set table(                          //table rules
+    fill: (x,y) => if y == 0 {
+      gray.lighten(40%)
+    },
+  )
+
+  show link : it => {                 //external links rules
+    set text(
       fill: blue.darken(30%),
       )
-    #underline[#it]
-  ]
+    underline[#it]
+  }
+
+  show: checklist.with(               //checklist rules
+    unchecked: sym.ballot, 
+    checked: sym.ballot.x
+  )
+
   pagebreak()
   doc
 }

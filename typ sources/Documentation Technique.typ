@@ -34,8 +34,6 @@
 // TODO Add a front cover
 #outline(
   title: "Table of Content",
-  depth: 2,
-  indent: true,
 )
 #v(1fr)
 #align(right,[_Last edited on June 2#super[nd] 2024_])
@@ -122,11 +120,11 @@ What’s working
 - menu bar
 - modifications Table -> preview
 - counting papers submitted
-What’s not working
-[ ] Column that specifies a field’s value (checked/unchecked or sentence) and the ability to modify it directly from the table
-[ ] Associate missing files once the table’s data was initialised
-[ ] Delete an exam, copy or a page from the table
-[ ] Mark a field as modified in the table
+= What’s not working
+- [ ] Column that specifies a field’s value (checked/unchecked or sentence) and the ability to modify it directly from the table
+- [ ] Associate missing files once the table’s data was initialised
+- [ ] Delete an exam, copy or a page from the table
+- [ ] Mark a field as modified in the table
 
 = What could be improved
 - Change the distance of Levenshtein by the distance of Damerau-Levenshtein
@@ -135,10 +133,10 @@ What’s not working
 
 == What needs to be removed
 
-[ ] The JsonLinker class associates pages with their corresponding Json file by matching the file names
-[ ] This association also allows the exam, copies, pages and fields to be initialised using specific data structures
-[ ] The PageInfo data structure contains an attribute that describes the path of the file it is associated with
-[ ] All of these points will not be necessary once the library allowing a page to be associated with its json file is properly implemented
+- [ ] The JsonLinker class associates pages with their corresponding Json file by matching the file names
+- [ ] This association also allows the exam, copies, pages and fields to be initialised using specific data structures
+- [ ] The PageInfo data structure contains an attribute that describes the path of the file it is associated with
+- [ ] All of these points will not be necessary once the library allowing a page to be associated with its json file is properly implemented
 
 = OS specific issues
 == MacOS
