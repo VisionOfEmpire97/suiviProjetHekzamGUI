@@ -18,14 +18,6 @@
   set page(                           //page rules
     paper:"a4",
     margin: (x:2cm, y:3cm),
-    header: [                         //header rules
-      #set text(
-        font: "Noto Sans Mono",
-        size: 10pt
-        )
-      #left_header
-      #h(1fr) #right_header
-    ],
   )
 
   set par(                            // paragraph rules
@@ -43,8 +35,26 @@
     )
     #it
   ]
-
+                                    // front cover rules
   v(1fr)
+  
+  // Set colors
+  let main-color = "#2CDE85" //Qt Neon Green
+  let primary-color = rgb(main-color) // alpha = 100%
+  // change alpha of primary color
+  let alpha = 60%
+  let secondary-color = color.mix(color.rgb(100%, 100%, 100%, alpha), primary-color, space:rgb)
+
+  // decorations at top left
+  place(top + left, dx: -35%, dy: -28%, circle(radius: 150pt, fill: primary-color))
+  place(top + left, dx: -5%, dy: 0%, circle(radius: 75pt, fill: secondary-color))
+  
+  //logo in the top-right
+  let logo = image("logo-UT3.png",width: 6cm)
+  place(top + right, dy:-5%, logo)
+
+  // decorations at bottom right
+  place(bottom +right, dx: 48%, dy: 40%, circle(radius: 200pt, fill: secondary-color))
 
   align(center)[                      // title rules
     #heading(numbering: none)[
@@ -83,7 +93,17 @@
     ])
   )
   counter(page).update(0)
-  set page(numbering:"1/1"  )
+  set page(
+    numbering:"1/1",
+    header: [                         //header rules
+      #set text(
+        font: "Noto Sans Mono",
+        size: 10pt
+        )
+      #left_header
+      #h(1fr) #right_header
+    ],  
+    )
 
   set heading(                        // headings rules
     numbering: (..nums) => {
@@ -99,6 +119,7 @@
       }
     }
   )
+  
   show link : it => [                 //external links rules
     #set text(
       fill: blue.darken(30%),

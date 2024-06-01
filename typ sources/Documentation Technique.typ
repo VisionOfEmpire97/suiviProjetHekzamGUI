@@ -33,12 +33,15 @@
 // Nom du tuteur sur la doc ou pas ?
 // TODO Add a front cover
 #outline(
-  title: none,
+  title: "Table of Content",
   depth: 2,
   indent: true,
 )
+#v(1fr)
+#align(right,[_Last edited on June 2#super[nd] 2024_])
 
 #pagebreak()
+
 = Context
 // context goes here
 
