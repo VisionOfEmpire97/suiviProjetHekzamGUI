@@ -197,9 +197,9 @@ In addition to getters and setters, this class contains several public methods i
 ===== CopyInfo
 `CopyInfo` is used to describe a paper and gather every page contained in it. A paper is composed of a name, a map associating a page name to its corresponding `PageInfo` object, the number of the copy, a boolean that indicates whether the paper is specified in a JSON file among those selected by the user, a boolean that informs on whether the paper is among the scan files selected by the user, and the number of pages contained in the paper.
 
-An ordered map is used for the same reasons stated in *ExamInfo* except this time, an *array* would need to be initialised with the correct value and this approach would be valid assuming the JSON file specifying every page contained in a paper is correct. If the JSON file lacks information about a page, then the page could never be added to the paper because the index would be out of range. A *vector* could fix this problem by expanding its size every time this happens but this would not be as efficient as directly using a map. 
+An ordered map is used for the same reasons stated in *ExamInfo* except this time, an *array* would need to be initialized with the correct value and this approach would be valid assuming the JSON file specifying every page contained in a paper is correct. If the JSON file lacks information about a page, then the page could never be added to the paper because the index would be out of range. A *vector* could fix this problem by expanding its size every time this happens but this would not be as efficient as directly using a map. 
 ===== PageInfo
-The class `PageInfo` categorises an exam page by its name, file path, number, two booleans that serve the same purpose as the ones described in *CopyInfo* but that imply the presence of a page instead, a map associating every field contained in the page with their names and the number of fields contained in the page. The private methods are used to facilitate the manipulation of a page directly from `CopyInfo` or `ExamInfo`. 
+The class `PageInfo` categorizes an exam page by its name, file path, number, two booleans that serve the same purpose as the ones described in *CopyInfo* but that imply the presence of a page instead, a map associating every field contained in the page with their names and the number of fields contained in the page. The private methods are used to facilitate the manipulation of a page directly from `CopyInfo` or `ExamInfo`. 
 
 ==== FieldInfo
 The class `FieldInfo` represents every field contained in a page. Each field can either be checked/unchecked or contain a value written by a student. The structure classifies a field by its *name*, *checked* status, *value* and *syntax* value that represents the programs certainty of the interpreted value in the field. The rest of the class is constituted of getters and setters for the previously listed values.
@@ -207,7 +207,7 @@ The class `FieldInfo` represents every field contained in a page. Each field can
 ==== JsonLinker
 Data storage is managed by the `JsonLinker` class. It is instantiated in the program as an attribute of `MainWindow` and has a unique public method: ```cpp std::map<QString, ExamInfo> &collectFields(QStringList const &filePaths, QStringList const &jsonFilePaths)```. This method takes the paths of previously selected scan and JSON files and aims to associate a scan to its corresponding JSON by matching their file names. 
 
-During this method's execution, a map (```cpp std::map<QString, ExamInfo> fileExamMap```) associating an exam identifier (e.g. 1-0-0) with an `ExamInfo` object is initialised by the  ```cpp void initialiseMaps(QStringList const &jsonPath)``` method. This process works by going through each JSON file path from the path list given in the method's argument. For each JSON file, the data is loaded into a `dataCopieJSON` pointer by calling ```cpp dataCopieJSON *loadAndGetJsonCoords(QString const &jsonPath)```. The data is loaded with an object from the `JSONReader` class that is instantiated as an attribute of `JsonLinker`. Next, an ExamInfo object is created and filled with `CopyInfo`, `PageInfo` and `FieldInfo` objects depending to the JSON's data.
+During this method's execution, a map (```cpp std::map<QString, ExamInfo> fileExamMap```) associating an exam identifier (e.g. 1-0-0) with an `ExamInfo` object is initialized by the  ```cpp void initialiseMaps(QStringList const &jsonPath)``` method. This process works by going through each JSON file path from the path list given in the method's argument. For each JSON file, the data is loaded into a `dataCopieJSON` pointer by calling ```cpp dataCopieJSON *loadAndGetJsonCoords(QString const &jsonPath)```. The data is loaded with an object from the `JSONReader` class that is instantiated as an attribute of `JsonLinker`. Next, an ExamInfo object is created and filled with `CopyInfo`, `PageInfo` and `FieldInfo` objects depending to the JSON's data.
 
 After the map's initialisation, the list containing every scan path is iterated through and the path of already existing pages is updated to the scan's path. If a file is not specified in any JSON, a dummy object will be created and inserted into the structure. Lastly, the map is returned and will be used to initialise the evaluation tables.
 
@@ -219,19 +219,19 @@ Whenever a user open a `data.json` save file via the main menu, it will load the
 
 == Evaluation Table <table>
 === TableBox
-The class `TableBox` is used as the main evaluation layout containing every component directly linked to the evaluation table. It is instantiated inside ```cpp void MainWindow::createEvaluationView()``` and receives as arguments the previously initialised map containing every `ExamInfo` retrieved from the selected files, the parent of a `QDockedWidget` which is the `Mainwindow` itself and its parent window which is the layout it is stored in.
+The class `TableBox` is used as the main evaluation layout containing every component directly linked to the evaluation table. It is instantiated inside ```cpp void MainWindow::createEvaluationView()``` and receives as arguments the previously initialized map containing every `ExamInfo` retrieved from the selected files, the parent of a `QDockedWidget` which is the `Mainwindow` itself and its parent window which is the layout it is stored in.
 
 `TableBox` contains several methods and attributes, half is used to instantiate the tables and the other half are used for the search features. 
 
 === SortDock
-In order to display or hide specific columns of the table, the `sortDock` object from the `QDockWidget` class  is displayed after pressing on the `sortButton` object from the `QPushButton` class. The dock is initialised through ```cpp void TableBox::initTableFilter()``` and contains a layout that gathers several `QCheckBox` objects that each are connected to a method that will be responsible for hiding or showing the corresponding column. 
+In order to display or hide specific columns of the table, the `sortDock` object from the `QDockWidget` class  is displayed after pressing on the `sortButton` object from the `QPushButton` class. The dock is initialized through ```cpp void TableBox::initTableFilter()``` and contains a layout that gathers several `QCheckBox` objects that each are connected to a method that will be responsible for hiding or showing the corresponding column. 
 
-Here are some links to the documentation concerning the previously mentionned classes: #link("https://doc.qt.io/qt-6/qdockwidget.html")[QDockWidget], #link("https://doc.qt.io/qt-6/qpushbutton.html")[QPushButton] and #link("https://doc.qt.io/qt-6/qcheckbox.html")[QCheckBox].
+Here are some links to the documentation concerning the previously mentioned classes: #link("https://doc.qt.io/qt-6/qdockwidget.html")[QDockWidget], #link("https://doc.qt.io/qt-6/qpushbutton.html")[QPushButton] and #link("https://doc.qt.io/qt-6/qcheckbox.html")[QCheckBox].
 
 === SortTable
-The `SortTable` class is an abstract class that extends the `QTableWidget` class. The tables' data comes from the ```cpp std::map<QString, ExamInfo> &examMap``` attribute that is initialised when the tables are first instantiated in the `TableBox`'s constructor. This class serves as template for every evaluation table used in the GUI. The table details each exam, copy, page, field and syntax of an exam paper (field or grouped syntax depending on the view) with columns that share the same name. 
+The `SortTable` class is an abstract class that extends the `QTableWidget` class. The tables' data comes from the ```cpp std::map<QString, ExamInfo> &examMap``` attribute that is initialized when the tables are first instantiated in the `TableBox`'s constructor. This class serves as template for every evaluation table used in the GUI. The table details each exam, copy, page, field and syntax of an exam paper (field or grouped syntax depending on the view) with columns that share the same name. 
 
-In order to simulate the grouping or unfolding of table cells, two tables `groupTable` and `fieldTable` are instantiated from custom classes called `GroupViewTable` and `FieldViewTable` that heritate from `SortTable`.  This map is issued from the previous file association done by `JsonLinked`, it contains every information about the selected exam files. 
+In order to simulate the grouping or unfolding of table cells, two tables `groupTable` and `fieldTable` are instantiated from custom classes called `GroupViewTable` and `FieldViewTable` that inherit from `SortTable`.  This map is issued from the previous file association done by `JsonLinked`, it contains every information about the selected exam files. 
 
 To fill in the tables, each method is responsible for inserting a specific structure. The `ExamInfo` objects from the map are unfolded in order to extract `CopyInfo`, `PageInfo` and `FieldInfo` objects and add them into  `QTableWidgetItem` objects as `QVariants` for them to be easily accessible from a table cell. The main difference between `GroupViewTable` and `FieldViewTable` is that at the end of each insertion, `GroupViewTable` sets the cells span to a specific value so that common cells are grouped as one unique cell. It is during the filling process that any error concerning a copy or a page is communicated to the user.
 
@@ -263,7 +263,7 @@ when the user press return, the slot `TableBox::searchProcessing` will start the
   it will process the differents type of search :
     - Unknown : error message in the `QLabel` named `searchInfo`.
     - Simple : select the columns concerned by the search, create the regex for the search and filter the rows.
-    - Multiple : select the columns concerned by the search, create the regex by joinning all the searched words and filter the rows.
+    - Multiple : select the columns concerned by the search, create the regex by joining all the searched words and filter the rows.
     - Tag : select the columns concerned by the search, create the list of tag and the list of regex and filter the rows.
 
 === Fuzzy search
@@ -281,6 +281,8 @@ when the user press return, the slot `TableBox::searchProcessing` will start the
   by the user, the slot `TableBox::cleanSortTable` is called for the two table.
 
 == Preview <preview>
+- [x] Interaction between table and preview that displays data according to a cell’s column
+- [x] Basic interactions with the preview, such as zoom operations, previous page/next page operations within a single Paper, and different interactions with the fields based on their type.
 === Layout in the Window
 This is described in the `preview.h` file directly (in French!).
 One thing of note is the existence of two previews and two scenes, but I focused on one pair and left the other totally empty.
@@ -333,20 +335,20 @@ There could be two fixes to this issue :
 
 == All the search-related problems
 
-- When a tag search is processed, it happens that not wanted "copies" are showed on the table. This happens only in the case of the "copies not found" or sometimes 
-  in the "Json not find".
+- When a tag search is processed, it happens that unwanted "copies" are showed on the table. This happens only in the case of the "copies not found" or sometimes 
+  in the "Json not found".
 #figure(
   image(
   "Evaluation_table.png", width: 30%
   ),
-caption:"here the four latest copies are showed"
+caption:"Here the four latest copies are shown"
 )
 
 
 = Missing features
 - #text(fill: rgb("#2CBEC0"), [Menu Bar : ])It lacks most of its functionality, however, most of the functions are already present in the code and just need to be written. Some options may need to be removed as they were more of a placeholder than anything else (i.e. darkmode).
 - #text(fill: rgb("#2CBEC0"), [Save Data :]) The save system doesn't account for any modifications, only storing the initial state of the data.
-- #text(fill: rgb("#2CBEC0"), [User Dialog :])Only file matching errors are displayed in the user dialog box for the moment. A set of information about the amount of scans and JSON files that were recognised could be added if necessary. 
+- #text(fill: rgb("#2CBEC0"), [User Dialog :])Only file matching errors are displayed in the user dialog box for the moment. A set of information about the amount of scans and JSON files that were recognized could be added if necessary. 
 - #text(fill: rgb("#2CBEC0"), [Searchbar : ]) First, the help for the user is missing. It could be great to have a reminder on the search format.
   The fuzzy search only work for the simple and multiple text search due to do a lack of time for implement it for the tag search.
   Finally, the atomic search work only for the tag search. In fact, if the user do an atomic search on a multiple text search it will try to search
@@ -376,7 +378,7 @@ caption:"here the four latest copies are showed"
 == What needs to be removed
 
 - The `JsonLinker` class associates pages with their corresponding Json file by matching the file names. This class was only useful since we had no other way of associating files. Ultimately, Hekzam will contain a library supports this feature. 
-- This association was also responsible for initialising exam, copies, pages and fields into the dedicated data structures `ExamInfo`, `CopyInfo`, `PageInfo` and `FieldInfo`. Those structures will need to be initialised differently.
+- This association was also responsible for initializing exam, copies, pages and fields into the dedicated data structures `ExamInfo`, `CopyInfo`, `PageInfo` and `FieldInfo`. Those structures will need to be initialized differently.
 - The `PageInfo` data structure contains an attribute that describes the path of the file it is associated with this will no longer be needed in the final version since the association library will take care of that.
 - I used the `mViewPort` and `mJSON` namespaces in some parts of the code, but they might be useless, remove them if you will.
 

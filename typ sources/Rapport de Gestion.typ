@@ -48,7 +48,7 @@ J'ai travaillé avec Marco sur le tableau utilisé pour lister et rechercher des
 Une des difficultés fut le choix entre utiliser un `QTableWidget` ou un `QStandardItemModel`, un `QSortFilterProxyModel` et une `QTableView` (c’est un affichage tableau suivant l’architecture Model/View en trois composants). Nous avons décidé de partir sur la `QTableWidget`, malgré son manque de flexibilité, pour sa lisibilité et facilité de compréhension. 
 
 Concernant la barre de recherche, elle permet de filtrer l'affichage, par exemple, par copie, page et de nombreux autres tags.
-Nous pouvons séparer les différents types de recherche en trois parties : tout d'abord, la *recherche simple* : c'est la possibilité de rechercher un certain mot ou une certaine partie d'un mot dans tout le tableau. Deuxièmement, nous avons la *recherche de texte multiple* : elle permet à l'utilisateur de rechercher un groupe de mots. Pour être plus précis, mon algorithme de recherche compare chaque cellule avec le mot numéro 1 du groupe ou le numéro 2 ou le numéro 3, … Et enfin, nous avons la *recherche par tag *: elle permet de rechercher un mot ou un groupe de mots dans une certaine colonne.
+Nous pouvons séparer les différents types de recherche en trois parties : tout d'abord, la *recherche simple* : c'est la possibilité de rechercher un certain mot ou une certaine partie d'un mot dans tout le tableau. Deuxièmement, nous avons la *recherche de texte multiple* : elle permet à l'utilisateur de rechercher un groupe de mots. Pour être plus précis, mon algorithme de recherche compare chaque cellule avec le mot numéro 1 du groupe ou le numéro 2 ou le numéro 3, … Et enfin, nous avons la *recherche par tag *: elle permet de rechercher un mot ou un groupe de mots dans une certaine colonne.
 
 Cette dernière a été la fonctionnalité la plus complexe à implémenter. Elle m'a obligé à revoir l'entièreté de mon code, car celui n'était pas assez modulaire. Après un court temps de recherches, je me suis rappelé une notion rapidement vue en cours de Structure Discrète 3 : les *expressions régulières*. En plus d'offrir des performances plus intéressantes que les comparaisons entre les chaînes de caractères, elles offrent une certaine modularité dans le format de recherche.
 
@@ -65,7 +65,7 @@ Concernant la phase de développement de l’*interface*, il était nécessaire 
 
 Ce ne fut pas le cas de la seconde phase de développement à laquelle j’ai fait face, celle-ci étant de créer et manipuler les *données de sauvegarde* et la *configuration utilisateur*. Concernant la *sauvegarde*, on s’est rapidement rendu compte en réunion qu’on serait dans l’incapacité de sauvegarder l’état actuel du tableau tant que celui-ci ne serait pas complet, il fut donc décidé de ne sauvegarder que l’état originel des données, ce que j’ai pû faire avec succès. Cependant, je pense que j’aurai pû faire mieux que cela, surtout dans la façon de sauvegarder un fichier où il aurait été plus logique de laisser à l’utilisateur nommer sa sauvegarde et choisir le répertoire où sauvegarder, plutôt que de juste demander un répertoire, ceci permettant d’avoir plusieurs sauvegardes en un emplacement. Pour la *configuration*, celle-ci aussi fut très dépendante de l’évolution des modules des autres, ceci menant à une conception de bas niveau, avec seulement la taille et position de la fenêtre retenues. Je suis un peu déçu de moi sur cette partie et je pense que si je n’avais pas été aussi encombré par les examens, j’aurai pû créer un système de configuration bien plus exhaustif que ce qui est aujourd’hui présent.
 
-Enfin, il fut demandé d’intégrer une *CLI*, ce qui s'avèrera être une tâche complexe, moi même travaillant sur *Windows*. En effet, mon Powershell ne voulait en aucun cas exécuter le programme et j’eu donc à programmer à l’aveugle, ceci quelques jours avant la dernière réunion. Heureusement, mon premier essai fut le bon, mais on m’a fait savoir que j’aurai pû utiliser un `QCommandLineParser` qui, après lecture de la documentation, serait en effet plus simple à implémenter et beaucoup plus efficace. J'aurais souhaité créer une CLI beaucoup plus extensive avant la fin du projet, mais ce ne fut malheureusement pas le cas.
+Enfin, il fut demandé d’intégrer une *CLI*, ce qui s’avérera être une tâche complexe, moi même travaillant sur *Windows*. En effet, mon Powershell ne voulait en aucun cas exécuter le programme et j’eu donc à programmer à l’aveugle, ceci quelques jours avant la dernière réunion. Heureusement, mon premier essai fut le bon, mais on m’a fait savoir que j’aurai pû utiliser un `QCommandLineParser` qui, après lecture de la documentation, serait en effet plus simple à implémenter et beaucoup plus efficace. J'aurais souhaité créer une CLI beaucoup plus extensive avant la fin du projet, mais ce ne fut malheureusement pas le cas.
 
 En conclusion, ce projet m’a apporté de nouvelles compétences en programmation et en travail de groupe. J’ai découvert le langage *C++* ainsi que l’API *Qt* qui pourront m’être utiles dans le futur, étant donné que j’ai trouvé cela très intuitif et efficace. J’ai pû également découvrir de nouvelles fonctionnalités de *Git* et le langage *Typst* qui fut utile pour nos rapports. Travailler sur ce projet et avec ce groupe fut une bonne expérience, il n’y a pas eu de conflits interne et notre rythme de travail est toujours resté fluide, permettant ainsi au projet de ne pas stagner, même lors de périodes d’examens, d’autant plus qu’on était là pour aider les autres. En général, si on me proposait de travailler sur un projet similaire avec la même équipe, j’accepterais sans hésiter, et en évitant de refaire les mêmes erreurs du passé.
 
@@ -89,9 +89,12 @@ Finalement, nous avons mis en place une ultime réunion avec notre encadrant qui
 Dans l'ensemble, ce projet m'a permis d'acquérir beaucoup d'expérience en ce qui concerne mes compétences en matière de *développement*. Lorsque j'ai commencé à coder en *C++*, j'ai rencontré plusieurs difficultés car je manquais d'expérience dans ce langage, mais après m'être familiarisé avec la syntaxe, j'ai pris de plus en plus confiance en mes capacités au fur et à mesure que je travaillais sur ma section de l'interface utilisateur. Outre les compétences techniques que j'ai acquis, j'ai beaucoup progressé en matière de *résolution de problèmes*, de *communication* et de *gestion de projet* lorsque je collaborais avec d'autres développeurs. \ Je suis fier d'avoir contribué à un projet qui aura potentiellement un impact sur le domaine de l'éducation en abordant un problème commun rencontré par la plupart des enseignants et j'ai hâte d'assister à son évolution dans les années à venir.
 
 == Nathan ROSET
-Durant cette période, j'ai implémenté la classe `ExamPreview` dont l'utilité première sera à terme de *visualiser* et d'*intéragir* avec les pages des copies afin de montrer à l'utilisateur les éléments reconnus par le programmen d'apprécier la qualité de la reconnaissance automatique, et de modifier/calibrer l'interprétation du scan au besoin.\ 
-La partie *visualisation* de l'interface devait permettre de montrer à la fois la page sélectionnée en entier ainsi que des champs en particulier. Cela a été implémenté avec un `QDialog` et un `QStackedWidget`.\ 
-J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Qt en essayant d'utiliser des classes non adaptées au besoin. De ce fait il m'a fallu remanier plusieures parties du programme afin d'obtenir un résultat agréable à utiliser pour l'utilisateur.
+Durant ce semestre, j'ai implémenté les modules de visualisation des pages ainsi qu'un utilitaire de lecture de fichiers JSON. L'utilité première de la classe `ExamPreview` est  de *visualiser* et d'*interagir* avec les pages des copies afin de montrer à l'utilisateur les éléments reconnus par le programme, d'apprécier la qualité de la reconnaissance automatique, et de modifier/calibrer l'interprétation du scan au besoin.\
+L'*utilitaire de lecture de fichiers JSON* à été relativement facile à mettre en oeuvre par rapport au reste du projet. Les classes de bases implémentées par Qt ont amplement suffit à obtenir un utilitaire satisfaisant, nous permettant d'extraire les données pertinentes du fichier. Il sera de plus facile pour les développeurs suivants d'ajouter des champs à extraire, de séparer les différents types de champs en plusieurs liste, de modifier la taille des pages... Des messages d'erreurs ont également été ajoutés à chaque étape de la conversion du JSON pour faciliter le débogage.\
+La partie *visualisation* de l'interface doit permettre de montrer à la fois la page sélectionnée en entier ainsi que des champs en particulier. Cela a été implémenté avec un `QDialog` et un `QStackedWidget` pour placer la preview dans la fenêtre. \ 
+La fonctionnalité de preview a été implémentée 
+Au final, ce projet m'a permit d'apprendre à utiliser le langage C++ et de comprendre les bases de l'utilisation des librairies de Qt, en particulier les `QWidgets` et le module `QGraphicsView`. J'ai également pu approfondir mes connaissances en IHM, car la conception d'une interface  J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Qt en essayant d'utiliser des classes non adaptées au besoin. De ce fait il m'a fallu remanier plusieures parties du programme afin d'obtenir un résultat agréable à utiliser pour l'utilisateur, et maintenable par l'équipe suivante. \
+Cependant, malgré mes efforts, j'ai découvert une divergence entre la position supposée des `MarkerItems` et leur position réelle. Les Objets ont l'air bien positionnés sur la page mais sont en réalité tous situés à l'origine, avec une forme positionnée au bon endroit.
 
 
 = Échéancier mis à jour 
@@ -103,8 +106,8 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
 
 
 
+#pagebreak(weak: true)
 = Répartition des tâches en %
-// #pagebreak()
 
 #let a = table.cell(        // 25%
   fill: blue.lighten(75%),
@@ -148,7 +151,7 @@ J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Q
   [WP 3.9], [Prise en charge des options du CLI] ,[] ,f ,[] ,[],
 )
 
-#pagebreak()
+#pagebreak(weak: true)
 = Description des tâches
 #linebreak()
 - [x] *Capture du Besoin*

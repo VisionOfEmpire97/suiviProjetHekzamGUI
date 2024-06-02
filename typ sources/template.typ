@@ -63,17 +63,19 @@
   // decorations at bottom right
   place(bottom +right, dx: 48%, dy: 40%, circle(radius: 200pt, fill: secondary-color))
 
-  align(center)[                      // title rules
-    #heading(numbering: none)[
-      #title 
-      #parbreak()
-      #if version == [] {
-         [#subtitle]
-      } else {
-         [ #subtitle - _V_ #emph[#version]]
-      }
-    ]
-  ]
+  text(
+    size : 18pt,
+    align(center)[                      // title rules
+      #heading(numbering: none)[
+        #title 
+        #parbreak()
+        #subtitle
+        #if version != []{
+          [ \- _V_ #emph[#version]]
+        }
+      ]
+    ],
+  )
 
   v(1fr)
 
