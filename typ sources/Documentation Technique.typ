@@ -345,9 +345,8 @@ caption:"here the four latest copies are showed"
 
 = Missing features
 - #text(fill: rgb("#2CBEC0"), [Menu Bar : ])It lacks most of its functionality, however, most of the functions are already present in the code and just need to be written. Some options may need to be removed as they were more of a placeholder than anything else (i.e. darkmode).
-- modifications Table -> preview
-- Because of the lack of modifications possible, the save system doesn't account for any modifications, only storing the initial state of the data.
-- counting papers submitted
+- #text(fill: rgb("#2CBEC0"), [Save Data :]) The save system doesn't account for any modifications, only storing the initial state of the data.Because of the lack of modifications possible, the save system doesn't account for any modifications, only storing the initial state of the data.
+- #text(fill: rgb("#2CBEC0"), [User Dialog :])Only file matching errors are displayed in the user dialog box for the moment. A set of information about the amount of scans and JSON files that were recognised could be added if necessary. 
 - #text(fill: rgb("#2CBEC0"), [Searchbar : ]) First, the help for the user is missing. It could be great to have a reminder on the search format.
   The fuzzy search only work for the simple and multiple text search due to do a lack of time for implement it for the tag search.
   Finally, the atomic search work only for the tag search. In fact, if the user do an atomic search on a multiple text search it will try to search
