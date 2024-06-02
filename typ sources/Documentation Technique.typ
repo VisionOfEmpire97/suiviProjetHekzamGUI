@@ -57,16 +57,56 @@
 = Current State of the Frontend By module
 
 == Main Window
+=== Layout of the Window
+The layout is described in the `mainwindow.h` file directly (in French!).
 
-== Information Box
+It is composed of a `QStackedWidget` that is going to switch between the different menus depending on our needs.
+
+=== Main Menu
+The main menu is only used to *open* or *create* a project. Thus, it is composed of two `QPushButton`.
+- The first leads to the creation menu developped later.
+- The second opens a file explorer where you can choose a save file to import. It will then redirect you to the evaluation menu.
+
+=== Creation Menu
+The creation menu acts as a `QFormLayout` formulary with a total of four fields to fill. In its current state, only the first three fields are working and necessary to continue.
+Here is a quick rundown of what each field is :
+- The first one is the location of the repository where you want the *save file* (`data.json`) to be.
+- The second one is the list of *exam data* in the `Json` format.
+- The third one is the list of *scan files* in the `png` or `pdf` formats.
+
+After clicking next, the save file will be created and the Json and scans will be loaded. For more information about the save file, check #link(<data>)[this section].
+
+It is possible to easily add new fields with the help of `addRow` on the `QFormLayout`, as well as the ```cpp QHBoxLayout *createFileEntry(const QString &labelText, QLineEdit *lineEdit)``` method that create those said fields with a :
+- `QLabel` as the title of the line.
+- `QLineEdit` as the field that will be filled.
+- `QPushButton` to browse the file directory.
+
+=== Evaluation Menu
+This menu is made of a horizontal `QSplitter`, separating the #link(<table>)[table] from the #link(<preview>)[preview]. On the #link(<table>)[table] side, there is another `QSplitter`, this time vertical, separating it from the #link(<infobox>)[information box].
+
+== Information Box <infobox>
 This text zone show the binding problem’s between the copies and the Json.
 
 == CLI
-== Saving and Restoring User Configuration
+The CLI is implemented using the arguments of the `main.cpp` file.
 
-== Project Data Management
+Each arguments has its own "show" function, those arguments being :
+- `--help` : Show the list of options.
+- `--version` : Show the program version.
+
+== Saving and Restoring User Configuration 
+User configuration by the use of the `settings.cpp` class. It initiates a `QSettings` variable that will be loaded with the saved configuration when the software is started, and that will be saved when it is closed.
+
+This information is often stored in the system registry on Windows, and in property list files on macOS and iOS. On Unix systems, in the absence of a standard, many applications (including the KDE applications) use INI text files.#footnote[https://doc.qt.io/qt-6/qsettings.html]
+
+At its current state, the program only saves the dimensions (`QSize`) and position (`QPoint`) of the main window and can only be launched with the user configuration. When loaded, those informations are transformed into a `QRect` to be set as geometry of the window.
+
+== Project Data Management <data>
 
 === Collecting Data
+Two types of data are stored at the creation of a project, both in the forms of `QStringList` :
+- The exam data (a list of json) in the `jsonFilePaths` variable.
+- The scanned files (a list of png/pdf) in the `scanFilePaths` variable.
 
 === Storing Data
 
@@ -75,8 +115,11 @@ This text zone show the binding problem’s between the copies and the Json.
 ==== ScanInfo
 
 === Saving and Restoring Data
+When a project is created, the same paths that are being loaded in `jsonFilePaths` and `scanFilePaths` are also stored in the save data (`data.json`) of the project. Those are the only informations that are being saved by the software at its current state.
 
-== Evaluation Table
+Whenever a user open a `data.json` save file via the main menu, it will load the paths that were saved previously into the `jsonFilePaths` and `scanFilePaths` variables. The software will then drop us to the evaluation menu.
+
+== Evaluation Table <table>
 What’s working
 - [ ] Sort button that allows one to hide or display specific columns of the table
 - [ ] Field view checkbox that change’s the table’s view from grouped to detailed
@@ -108,7 +151,7 @@ What’s working
 	Allow there user to do an atomic search (search the exact word with the pattern instead of searching a match with the regex)
     - work only for the simple search (for the multiple because I use the join character it will search for the concatenation of the word)
     - it doesn’t work for the tag search because it’s not even implemented in `filterTagSearchRow`
-== Preview
+== Preview <preview>
 === Layout in the Window
 This is described in the `preview.h` file directly (in French!).
 One thing of note is the existence of two previews and two scenes, but I focused on one pair and left the other totally empty.
@@ -138,16 +181,20 @@ _It is possible to move a whole Marker and its corners (called `MarkerHandles` i
   - Every `FieldItem` on the page is actually located at `QPointF(0,0)` (the origin of the scene, in the top-left corner) in page coordinates, with a polygon drawn at the correct location. This causes strange behavior when moving a marker around (see `qDebug` output when moving a marker). The only value I was able to ensure was consistently correct was the displacement relative to the starting point of the item. I became aware of this issue too late to fix it because it did not cause any visual bug but will surely be very annoying when other libraries will receive that data.
   - Changes to the position of an marker are not reflected on his corners, meaning that moving the whole marker from its initial position, then moving a corner will exhibit weird behavior as the corner's position hasn't been updated from the prior move.
   - The next step would then be to actually convert the positions from their page coordinates (in pixels) back into parser coordinates in millimeters. (The test JSON files we had available had every coordinate in millimeters).
+== Duplication of data when opening a save file
+_It is possible, with the help of the menu bar, to open a save file on the evaluation window. Because of a lack of time, the table doesn't possess a method to clean its content, and thus the save data will add ontop of the pre-existing data._
 
+There could be two fixes to this issue :
+- Creating a method to clean the content of the table.
+- Creating a method to delete and recreate a new table made up of this new data.
 = Missing features
-- menu bar
+- #text(fill: rgb("#2CBEC0"), [Menu Bar : ])It lacks most of its functionnality, however, most of the functions are already present in the code and just need to be written. Some options may need to be removed as they were more of a placeholder than anything else (i.e. darkmode).
 - modifications Table -> preview
+- Because of the lack of modifications possible, the save system doesn't account for any modifications, only storing the initial state of the data.
 - counting papers submitted
 - #text(fill: rgb("#2CBEC0"), [Preview : ])The `FieldItem::getRect` is used to inform the `QGraphicsView` of the new region to display when the user clicks on a "field" cell inside the Table. The call stack is :\
   #par(justify: false,[`FieldItem::getRect -> ExamSinglePage::getFieldPos -> Examscene::setROI -> ExamViewPort::fitROIInView`.])
   But `fitROIInView` wasn't implemented due to the lack of time.
-
-= What’s not working
 - [ ] Column that specifies a field’s value (checked/unchecked or sentence) and the ability to modify it directly from the table
 - [ ] Associate missing files once the table’s data was initialized
 - [ ] Delete an exam, copy or a page from the table
@@ -159,6 +206,7 @@ _It is possible to move a whole Marker and its corners (called `MarkerHandles` i
 - The minimum size of the Preview might be too restrictive, feel free to reduce `minPreviewSize` and change the `previewSizePolicy` if needed.
 - The second preview viewport (only visible when the primary preview is present in another window) has been left unused for now. It might be a good idea to reconsider if it's useful or not.<secondpreview>
 - the image is reloaded every time we click on a field. Could be an area of improvement if you have the time.
+- The CLI could have been implemented with a `QCommandLineParser` instead of doing it from ground-up like we did. It may end up being simpler to implement and possesses an already built in help and version option. Because the CLI was implemented on the last week of the project, we couldn't dive into the #link("https://doc.qt.io/qt-6/qcommandlineparser.html")[documentation] deep enough.
 == Preview module
 - Hiding the mouse cursor when moving a corner of a marker could improve accuracy.
 
