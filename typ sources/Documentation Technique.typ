@@ -1,4 +1,4 @@
-#import "template.typ" : base
+#import "template.typ" : base, dirpath
 #show: doc => base(
   // left_header:[],
   right_header : [Equipe scan-GUI-Printemps-2024],
@@ -38,22 +38,53 @@
 #v(1fr)
 #align(right,[_Last edited on June 2#super[nd] 2024_])
 
-#pagebreak()
+#pagebreak(weak: true)
 
 = Context
-// context goes here
+In any contemporary academic context, it would be foolish to ask for a teacher to grade hundreds or thousands of exam sheets every week. To ease their burden, several tools like AMC aim to automate this process. However, they’re more often than not dated, unmaintained and prone to errors. To tackle this issue, we have been tasked to design a *modern interface* for a new grading and polling tool called Hekzam.\
+The Hekzam program is composed of several components. First, there’s the compiler that will generate exam printouts using *Typst* libraries. Then, a scanner interface will collect and convert if necessary the answer-filled sheets to produce images that will be passed on to the other components. The OCR component will then extract useful data from scanned sheets. And finally, an *automatic verification/grading interface* will allow the user to quickly check for erroneous scans, grade sheets or get statistics from one or multiple examination session. 
+We describe the Graphical User Interface (or GUI) made using *C++* and *Qt Widget libraries* in this document.
 
 = Definitions
 
 - *Hekzam* : The whole program, #link("https://github.com/hekzam")[(GUI + parser + generator)], including frontend and backend.
+- *Typst* : This is a typesetting tool that aims to replace LaTeX. Due to its novelty the API might be unstable.
 - *Project* : a directory regrouping all files generated during the execution by Hekzam.
 - *Exam*#footnote[_Sujet d'examen_] : Batch of questions asked to students to evaluate them
 - *Paper*#footnote[_Copie_] : refers to one batch of pages filled by a single student during an examination session.
-- *Page*#footnote[_page_] : Scan of a single sheet, each uniquely identified.
+- *Page*#footnote[_Page_] : Scan of a single sheet, each uniquely identified.
+- *Field*#footnote[_Champ_] : refers to a generic box with different properties based on its type. They all have positions on the page and a (unique ?) ID but AtomicBoxItems contains boolean values, MarkerItems can be moved by the user and OCRItems contain strings.
+- *Signals & Slots in Qt* : Qt applications work by using events instead of callbacks. This mechanism is the way `QObjects` can communicate between each other. To make two unrelated objects communicate you `connect` a `signal` from one to the `slot` of the other. There's plenty of working examples in the code already.\
+  #figure(
+    align(left)[
+    ```cpp
+    connect(openButton, &QPushButton::clicked, this, &MainWindow::openProject);
+    ```],
+      caption: [_connection between a GUI element and a user-defined function_],
+    )
+  The requirements for working communications are : _a)_ both objects are subclasses of `QObject` and _b)_ the functions you're trying to connect have the same signature (the same number and type of arguments). Learn more about this mechanism in #link("https://doc.qt.io/qt-6/signalsandslots.html")[the official Qt documentation].\
+ Be warned that `QGraphicsItem` cannot use signals and slots by default as they do not subclass `QObject` as it adds significant overhead according the Qt documentation.
 
 = User Manual
-
-
+_from the project `README.md`_:\
+Execute the program either through Qt Creator after importing the project (easy) 
+or by running `./scan-gui` after building.
+- *If you haven't ran the program before*:
+    - Click `Create a New Project`
+    - In the field *Project Repository* : Select a directory to store the recovery data (useful for testing as you'll only need to pass this JSON file to open all previous files)
+    - In the field *Exam Data* : select all or some of the files from #dirpath("resources/test_case/Json/")
+    - In the field *Scan Files* : select all or some of the files from #dirpath("resources/test_case/Fichiers")
+    - last field is left empty for now
+- *If you've already ran the program before*
+    - Click `Open an Existing Project`
+    - Open the `data.json` file from the directory you specified in Project Repository.
+Then you can :
+ - Click on an entry in the table
+ - Clicking on different columns yield different results
+ - Click on the search bar to enter your search
+ - Different type of search, the simple : _word_ , the multiple : _word1, word2, ..._ and the tag search : _tag1: word1; tag2: word2, word3;..._
+ - Hovering the sliders below the preview opens up a tooltip that tells you what they do.
+ - Interaction with the preview is basic. You can zoom in/out with the `Ctrl + Mouse wheel` combination (`cmd + scroll gesture on MacOS`), 
 = Current State of the Frontend By module
 
 == Main Window
@@ -64,7 +95,7 @@ It is composed of a `QStackedWidget` that is going to switch between the differe
 
 === Main Menu
 The main menu is only used to *open* or *create* a project. Thus, it is composed of two `QPushButton`.
-- The first leads to the creation menu developped later.
+- The first leads to the creation menu developed later.
 - The second opens a file explorer where you can choose a save file to import. It will then redirect you to the evaluation menu.
 
 === Creation Menu
@@ -111,6 +142,43 @@ Two types of data are stored at the creation of a project, both in the forms of 
 === Storing Data
 
 ==== JSONReader
+The `JSONReader` class is a simple class that handles reading from JSON file located on disk. It was however tailored for our test case (#emph([detailed in @testcase])). It contains error messages for every step of the conversion in case the file is not readable or empty. The `mJSON::JSONERROR` enum holds the different error values.\
+We separate Markers from other fields in ```cpp int jsonreader::getCoordinates()```. This is where you should add other marker types if the need arises (for exemple, for fields containing strings instead of boolean values). We read the relevant keys in 
+```cpp
+void jsonreader::parseValues(QJsonObject &o, dataFieldJSON &coo)
+```
+If you need to access other fields (*boolean value* of the field, *string* recognized by OCR, *percentage* of certainty), you'll have to add the relevant keys in that function. They're currently missing because our test case did not include any such keys.\
+The data is stored in the `dataFieldJSON` struct. and they're grouped by Paper in `dataCopieJSON`.
+#let fieldjson = [
+  ```cpp
+  struct dataFieldJSON
+{
+  qreal x, y, h, w;
+  QString clef;
+  QVariant valeur;
+  int pagenum;
+}
+  ```
+]
+#let copiejson = [
+  ```cpp
+  struct dataCopieJSON
+{
+  QSize pageSizeInMM;
+  QList<dataFieldJSON> *documentFields;
+  QList<dataFieldJSON> *documentMarkers;
+  int pagecount = 0;
+}
+  ```
+]
+#figure(  
+  grid(
+    align: center,
+    columns: 2,
+    column-gutter: 20pt,
+    fieldjson, copiejson),
+  caption : [_current data model_]
+)
 
 ==== ScanInfo
 
@@ -121,10 +189,11 @@ Whenever a user open a `data.json` save file via the main menu, it will load the
 
 == Evaluation Table <table>
 What’s working
-- [ ] Sort button that allows one to hide or display specific columns of the table
-- [ ] Field view checkbox that change’s the table’s view from grouped to detailed
-- [ ] Table that details each exam, copy, page, field and syntax of an exam paper (field or grouped syntax depending on the view)
-- [ ] Interaction between table and preview that displays data according to a cell’s column
+- [x] Sort button that allows one to hide or display specific columns of the table
+- [x] Field view checkbox that change’s the table’s view from grouped to detailed
+- [x] Table that details each Exam, Paper, Page, field and syntax of an exam paper (field or grouped syntax depending on the view)
+- [x] Interaction between table and preview that displays data according to a cell’s column
+- [x] Basic interactions with the preview, such as zoom operations, previous page/next page operations within a single Paper, and different interactions with the fields based on their type.
 
 == Search Function within the Table
 === Searchbar
@@ -167,13 +236,26 @@ Subclass of `QGraphicsPathItem`. First a mask is initialized over the whole page
 Subclass of `QGraphicsPixmapItem`. Holds the attributes of the page. Parent of every other all the Item Fields. this is where the functions that perform the unit conversions are defined. They allow you to convert JSON coordinates from the parser to Image coordinates used in the preview, and vice versa. This is also where the `FieldItems` are initialized.
 === FieldItems
 Subclass of `QGraphicsPolygonItem`. *Generic polygon* that is then subclassed in `AtomicBoxItems` and `MarkerItems` with different properties. Each item is able to send data to the underlying library with `sendNewDataToLib`.\
-Here's a tip: when re-implementing a mouseEvent in a subclass of QGraphicsItem, do not forget to call the corresponding mouseEvent of the parent class.
-_Example_ : see ```cpp void MarkerItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)``` in `markeritem.cpp`.
+Here's a tip: when re-implementing a mouseEvent in a subclass of QGraphicsItem, do not forget to call the corresponding mouseEvent of the parent class.\
+_Example_ : read the
+```cpp
+void MarkerItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+```
+function in `markeritem.cpp`.
 ==== Why the use of `QVariant` ?
 In `FieldItem::sendNewDataToLib`, we send `QMap<QString, QList<QVariant>>` as it allows us to use one function to reflect changes to all the fields. In the case of markers, the data we send is a list of new coordinates, but in the case of Atomic Boxes, it's simply a boolean value. Using QVariants wraps every possible type into one.
 
-= Description of the test case
-Description of the test case GOES HERE
+= Description of the test case<testcase>
+The test case we used is located in the #dirpath("resources/test_case/Fichiers") and #dirpath("resources/test_case/Json") folders. They contain _manually_ renamed files to match JSON files and images based on their names since this was the only identifier we had. Each file is named following this syntax `X-Y-Z-copieA-pageB:`
+- _X-Y-Z identifier_
+  - X : id of the Exam
+  - Y : boolean value, is each Page double-sided or not ?
+  - Z : boolean value, is each Paper printed on two pages or not ?
+- _copieA_ :
+  - A : id of the Paper
+- _pageB_ :
+  - B : current page number
+The original test case generated by M.Poquet is also available in a set of 12 different folders at #dirpath("resources/test_case/basic-*-*-*/"), with each Paper in a separate folder. *Please keep in mind that we wrote all of our code without a definitive idea of the data format we would end up handling, as the API was not available at the time*
 = Known Bugs
 == Markers, MarkerHandles and coordinate systems
 _It is possible to move a whole Marker and its corners (called `MarkerHandles` in code) individually. But this feature was implemented at the tail end of the project so some bugs flew under my radar._
@@ -182,13 +264,13 @@ _It is possible to move a whole Marker and its corners (called `MarkerHandles` i
   - Changes to the position of an marker are not reflected on his corners, meaning that moving the whole marker from its initial position, then moving a corner will exhibit weird behavior as the corner's position hasn't been updated from the prior move.
   - The next step would then be to actually convert the positions from their page coordinates (in pixels) back into parser coordinates in millimeters. (The test JSON files we had available had every coordinate in millimeters).
 == Duplication of data when opening a save file
-_It is possible, with the help of the menu bar, to open a save file on the evaluation window. Because of a lack of time, the table doesn't possess a method to clean its content, and thus the save data will add ontop of the pre-existing data._
+_It is possible, with the help of the menu bar, to open a save file on the evaluation window. Because of a lack of time, the table doesn't possess a method to clean its content, and thus the save data will add on top of the pre-existing data._
 
 There could be two fixes to this issue :
 - Creating a method to clean the content of the table.
 - Creating a method to delete and recreate a new table made up of this new data.
 = Missing features
-- #text(fill: rgb("#2CBEC0"), [Menu Bar : ])It lacks most of its functionnality, however, most of the functions are already present in the code and just need to be written. Some options may need to be removed as they were more of a placeholder than anything else (i.e. darkmode).
+- #text(fill: rgb("#2CBEC0"), [Menu Bar : ])It lacks most of its functionality, however, most of the functions are already present in the code and just need to be written. Some options may need to be removed as they were more of a placeholder than anything else (i.e. darkmode).
 - modifications Table -> preview
 - Because of the lack of modifications possible, the save system doesn't account for any modifications, only storing the initial state of the data.
 - counting papers submitted
@@ -201,8 +283,10 @@ There could be two fixes to this issue :
 - [ ] Mark a field as modified in the table
 
 = What could be improved
+- The executable doesn't have a logo, so a per-platform generic logo like #box(image("genericlogo1.png", height: 1em)) on Linux is used by default.
 - Change the distance of Levenshtein by the distance of Damerau-Levenshtein
 - variables in ScanInfo could be renamed to match the Table Headers
+- #link("https://doc.qt.io/qt-6/model-view-programming.html")[An MVC architecture] could be implemented.
 - The minimum size of the Preview might be too restrictive, feel free to reduce `minPreviewSize` and change the `previewSizePolicy` if needed.
 - The second preview viewport (only visible when the primary preview is present in another window) has been left unused for now. It might be a good idea to reconsider if it's useful or not.<secondpreview>
 - the image is reloaded every time we click on a field. Could be an area of improvement if you have the time.
@@ -221,9 +305,16 @@ There could be two fixes to this issue :
 = OS specific issues
 == MacOS
 - MacOS specific error message
+#figure(
+  image(
+    "errormac.png"
+  ),
+  caption: [_captured on M1 MacBook (ARM)_]
+)
+This seemingly happens when the user clicks anywhere in the window then hover on the preview frame. This didn't seem to affect the program in any other way.
 == Linux
 === Wayland
-- window position cannot be restored because Wayland
+- Window position cannot be restored because Wayland.
 
 = Sources
 #link("https://doc.qt.io/qt-6/qtwidgets-index.html")[Qt official documentation]\

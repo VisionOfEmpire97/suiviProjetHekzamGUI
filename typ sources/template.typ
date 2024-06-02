@@ -26,8 +26,12 @@
   )
 
   set text(
-    font : "Noto Serif",
+    font : "Noto Sans",
     size: 12pt,
+    fallback: true,
+    lang:"en",
+    region: "US",
+
   )
 
   show raw : it =>{                   // verbatim/code rules
@@ -73,11 +77,6 @@
 
   v(1fr)
 
-  show grid : it => {                  //authors
-    set text(size: 10pt)
-    [#it]
-  }
-  
   let count = authors.len()
   let ncols = calc.min(count, 4)
   grid(
@@ -87,11 +86,13 @@
     align: center,
     ..authors.map(author =>
     [
+      #set text(size: 10pt)
       #set par(justify:false)
       *#author.name*
     ]),
     ..authors.map(author =>
     [
+      #set text(size: 10pt)
       #author.affiliation
       #author.email
     ])
@@ -149,7 +150,6 @@
     if it.level > 2 {
       set text(
         // fill: rgb("#2CBEC0"),
-        // font: "Noto Sans"
       )
     [#it]
     } else {
@@ -157,6 +157,12 @@
     }
   }
   
-  pagebreak()
+  pagebreak(weak: true)
   doc
+}
+
+// highlight paths differently from verbatim text
+#let dirpath(body) = {
+    set text(fill: rgb("#AA0000"))
+     raw(body)
 }
