@@ -2,29 +2,29 @@
 #show: doc => base(
   // left_header:[],
   right_header : [Equipe scan-GUI-Printemps-2024],
-  title: [Projet Hekzam-GUI],
+  title: [Projet Hekzam-GUI - Printemps-2024],
   subtitle: [Rapport de gestion],
   version: [],
   authors:(
     (
     name: "REGRAGUI MARTINS Marco",
-    affiliation:"Paul Sabatier University",
-    email:"",
+    affiliation:"Université Paul Sabatier",
+    email:"Licence Informatique",
     ),
     ( 
     name: "ROSET Nathan",
-    affiliation:"Paul Sabatier University",
-    email:"",
+    affiliation:"Université Paul Sabatier",
+    email:"Licence Informatique",
     ),
     (
     name: "SANCHEZ Emilien",
-    affiliation:"Paul Sabatier University",
-    email:"",
+    affiliation:"Université Paul Sabatier",
+    email:"Licence Informatique",
     ),
     (
     name: "YABAR Fabio",
-    affiliation:"Paul Sabatier University",
-    email:"",
+    affiliation:"Université Paul Sabatier",
+    email:"Licence Informatique",
     )
   ),
   doc

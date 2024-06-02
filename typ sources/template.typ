@@ -65,16 +65,20 @@
 
   text(
     size : 18pt,
+    hyphenate: false,
     align(center)[                      // title rules
       #heading(numbering: none)[
         #title 
+      ]
         #parbreak()
-        #subtitle
+        #heading(level :2)[#subtitle
         #if version != []{
           [ \- _V_ #emph[#version]]
         }
       ]
-    ],
+      #parbreak()
+      *Encadrant* : Millian Poquet - Maître de conférences à l'Université Paul Sabatier - Chercheur à l'IRIT
+    ]
   )
 
   v(1fr)
@@ -83,6 +87,7 @@
   let ncols = calc.min(count, 4)
   grid(
     columns: (1fr,) * ncols,
+    column-gutter: 10pt,
     rows: (1em, 1em),
     row-gutter: 20pt,
     align: center,
