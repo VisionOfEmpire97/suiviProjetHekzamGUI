@@ -196,30 +196,42 @@ What’s working
 - [x] Basic interactions with the preview, such as zoom operations, previous page/next page operations within a single Paper, and different interactions with the fields based on their type.
 
 == Search Function within the Table
+
+For now, the searchbar brings functionalities such as simple and multiple text search and also a 
+tagged search. All the available functionalities are detailed below.
+
 === Searchbar
+The `QWidget` use for the search is a `QLineEdit`. Two signals are used here : 
 
-    - Signal -> 
-	-> change carac
+- `QLineEdit::textChanged` : 
+every time a character is changed, the slot 
+  `TableBox::cleanSortTable` 
+      will check if the text zone is empty. If so, it will show all the lines of the table and clear 
+      the error message of `searchInfo`.
 
-    - Slot -> searchprocess
-			-> test format with regex 
-			-> process the different type of search
-
-        - Unknown -> error message
-        - Simple ->  select the columns and filter the rows
-        - Multiple -> select the columns, create the regex via join and filter the rows
-        - Tag -> select the column, create the list of tag and the list of regex and filter the rows
+- `QLineEdit::returnPressed` :
+when the user press return, the slot `TableBox::searchProcessing` will start the search.
+  The first step is a search process. It will test the format with a regular expression #link(<ref4>)[[4]]#link(<ref5>)[[5]]. Depends on the result, 
+  it will process the differents type of search :
+    - Unknown : error message in the `QLabel` named `searchInfo`.
+    - Simple : select the columns concerned by the search, create the regex for the search and filter the rows.
+    - Multiple : select the columns concerned by the search, create the regex by joinning all the searched words and filter the rows.
+    - Tag : select the columns concerned by the search, create the list of tag and the list of regex and filter the rows.
 
 === Fuzzy search
-	It’s an approximate string matching. It show a list of the first nearest found words. Implement the Wagner and Fischer algorithm’s which use the concept of the distance of Levenshtein (cf. Links).
-	It use a dynamic threshold (30% of the size of the string but doesn’t seem to be the perfect ratio).
-	The fuzzy search only work for the simple and multiple text search due to do a lack of time for implement it for the tag search (more complicate)
-	
+	It’s an approximate string matching. It shows a list of the maximum three first nearest found words. It implements the Wagner and Fischer 
+  algorithm’s which use the concept of the distance of Levenshtein #link(<ref2>)[[2]]. It use a dynamic threshold (30% of the size of the searched text).
+	The fuzzy search works only for the simple and multiple text search.
 
 === AtomicSearchBox
-	Allow there user to do an atomic search (search the exact word with the pattern instead of searching a match with the regex)
-    - work only for the simple search (for the multiple because I use the join character it will search for the concatenation of the word)
-    - it doesn’t work for the tag search because it’s not even implemented in `filterTagSearchRow`
+	Allow the user to do an atomic search (search the exact word with the pattern instead of searching a match with the regex) :
+    - works only for the simple search (also for the multiple but because words are jointed it will search for their concatenations).
+
+=== Search on FieldView and GroupView
+  A search is process on the GroupView either the FieldView not the two at the same time. Because of 
+  the use of two tables, the previous search will not be automatically cleared. But, if `textZone` is cleared
+  by the user, the slot `TableBox::cleanSortTable` is called for the two table.
+
 == Preview <preview>
 === Layout in the Window
 This is described in the `preview.h` file directly (in French!).
@@ -269,11 +281,30 @@ _It is possible, with the help of the menu bar, to open a save file on the evalu
 There could be two fixes to this issue :
 - Creating a method to clean the content of the table.
 - Creating a method to delete and recreate a new table made up of this new data.
+
+
+== All the search-related problems
+
+- When a tag search is processed, it happens that not wanted "copies" are showed on the table. This happens only in the case of the "copies not found" or sometimes 
+  in the "Json not find".
+#figure(
+  image(
+  "Evaluation_table.png", width: 30%
+  ),
+caption:"here the four latest copies are showed"
+)
+
+
 = Missing features
 - #text(fill: rgb("#2CBEC0"), [Menu Bar : ])It lacks most of its functionality, however, most of the functions are already present in the code and just need to be written. Some options may need to be removed as they were more of a placeholder than anything else (i.e. darkmode).
 - modifications Table -> preview
 - Because of the lack of modifications possible, the save system doesn't account for any modifications, only storing the initial state of the data.
 - counting papers submitted
+- #text(fill: rgb("#2CBEC0"), [Searchbar : ]) First, the help for the user is missing. It could be great to have a reminder on the search format.
+  The fuzzy search only work for the simple and multiple text search due to do a lack of time for implement it for the tag search.
+  Finally, the atomic search work only for the tag search. In fact, if the user do an atomic search on a multiple text search it will try to search
+  the joint of the words. For the tag search, #link(<refImple>)[we have to think in a completely different way to implement this feature].
+
 - #text(fill: rgb("#2CBEC0"), [Preview : ])The `FieldItem::getRect` is used to inform the `QGraphicsView` of the new region to display when the user clicks on a "field" cell inside the Table. The call stack is :\
   #par(justify: false,[`FieldItem::getRect -> ExamSinglePage::getFieldPos -> Examscene::setROI -> ExamViewPort::fitROIInView`.])
   But `fitROIInView` wasn't implemented due to the lack of time.
@@ -282,9 +313,12 @@ There could be two fixes to this issue :
 - [ ] Delete an exam, copy or a page from the table
 - [ ] Mark a field as modified in the table
 
-= What could be improved
+<<<<<<< Updated upstream
+= What could be improved <refImple>
 - The executable doesn't have a logo, so a per-platform generic logo like #box(image("genericlogo1.png", height: 1em)) on Linux is used by default.
-- Change the distance of Levenshtein by the distance of Damerau-Levenshtein
+- The Regex are good but the use of them to compare the text in the cells brings too much difficulty when we want to change
+  the way our search work. Changing this could benefit to easily implements the atomic search for all types of search.
+- Changing the distance of Levenshtein#link(<ref2>)[[2]] by the distance of Damerau-Levenshtein#link(<ref3>)[[3]] to get a more precise threshold.
 - variables in ScanInfo could be renamed to match the Table Headers
 - #link("https://doc.qt.io/qt-6/model-view-programming.html")[An MVC architecture] could be implemented.
 - The minimum size of the Preview might be too restrictive, feel free to reduce `minPreviewSize` and change the `previewSizePolicy` if needed.
@@ -316,7 +350,9 @@ This seemingly happens when the user clicks anywhere in the window then hover on
 === Wayland
 - Window position cannot be restored because Wayland.
 
-= Sources
-#link("https://doc.qt.io/qt-6/qtwidgets-index.html")[Qt official documentation]\
-#link("https://fr.wikipedia.org/wiki/Distance_de_Levenshtein")[Levenshtein distance]\ 
-#link("https://fr.wikipedia.org/wiki/Distance_de_Damerau-Levenshtein")[Levenshtein-Damerau distance]\ 
+= Sources 
+<ref1>[1]#link("https://doc.qt.io/qt-6/qtwidgets-index.html")[Qt official documentation]\
+<ref2>[2]#link("https://fr.wikipedia.org/wiki/Distance_de_Levenshtein")[Levenshtein distance]\ 
+<ref3>[3]#link("https://fr.wikipedia.org/wiki/Distance_de_Damerau-Levenshtein")[Levenshtein-Damerau distance]\ 
+<ref4>[4]#link("https://doc.qt.io/qt-6/qregularexpression.html")[QRegularExpression documentation]\
+<ref5>[5]#link("https://perldoc.perl.org/perlre")[Perl-Regex]\
