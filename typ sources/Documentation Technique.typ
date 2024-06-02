@@ -181,6 +181,36 @@ The data is stored in the `dataFieldJSON` struct. and they're grouped by Paper i
 )
 
 ==== ScanInfo
+The `scaninfo.h` file details every structure used to store the data of an exam. Each class listed in `scaninfo.h` contains getters and setters for its attributes as well as methods to iterate through its specific map except for the class `FieldInfo` which doesn't have any. The ```cpp Q_DECLARE_METATYPE``` macro at the very end of the file is used to enable Qt's meta-object system to recognize custom data types. This allows pointers to ExamInfo, CopyInfo and PageInfo to be used with QVariant, signal-slot mechanisms, and other Qt features that require runtime type information. In this context, this macro is used in order to store such structures inside ```cpp QTableWidgetItems``` contained in a tabled cell to facilitate access to the data they refer to. 
+
+More information about `QMetaType` class through this #link("https://doc.qt.io/qt-6/qmetatype.html")[link].
+
+
+==== ExamInfo 
+
+The class `ExamInfo` represents the main data structure that will be used throughout the program to manipulate exam data. It contains information about an exam name, the data collected from the corresponding JSON file, a map associating paper names with a `CopyInfo` object and the number of papers contained in the exam.
+
+Even though papers can be classified by an integer, I considered using a map since there is no guarantee that papers will be added in order. For the test cases that are currently used, an *array* or a *vector* could have been used since the number of copies contained in an exam is specified in a file's name. However since this association process is bound to change, I preferred keeping a map in case the copy numbers turn out to be missing or imprecise. \ Other data structures such as *LinkedList*, *Queue*, *Stack* and *Dequeue* will not be efficient when consulting the structure since both table's initialisation need to go through this data structure once (twice in total). Hence a map will be more efficient time wise. The map is ordered for the pages to be inserted inside the table in the correct order (more detail about the table's initialisation later on).
+
+In addition to getters and setters, this class contains several public methods in order to manipulate the other objects of the `scaninfo.h` classes through their private methods. Any field, page or paper can be added anywhere directly from the `ExamInfo` class. 
+
+===== CopyInfo
+`CopyInfo` is used to describe a paper and gather every page contained in it. A paper is composed of a name, a map associating a page name to its corresponding `PageInfo` object, the number of the copy, a boolean that indicates whether the paper is specified in a JSON file among those selected by the user, a boolean that informs on whether the paper is among the scan files selected by the user, and the number of pages contained in the paper.
+
+An ordered map is used for the same reasons stated in *ExamInfo* except this time, an *array* would need to be initialised with the correct value and this approach would be valid assuming the JSON file specifying every page contained in a paper is correct. If the JSON file lacks information about a page, then the page could never be added to the paper because the index would be out of range. A *vector* could fix this problem by expanding its size every time this happens but this would not be as efficient as directly using a map. 
+===== PageInfo
+The class `PageInfo` categorises an exam page by its name, file path, number, two booleans that serve the same purpose as the ones described in *CopyInfo* but that imply the presence of a page instead, a map associating every field contained in the page with their names and the number of fields contained in the page. The private methods are used to facilitate the manipulation of a page directly from `CopyInfo` or `ExamInfo`. 
+
+==== FieldInfo
+The class `FieldInfo` represents every field contained in a page. Each field can either be checked/unchecked or contain a value written by a student. The structure classifies a field by its *name*, *checked* status, *value* and *syntax* value that represents the programs certainty of the interpreted value in the field. The rest of the class is constituted of getters and setters for the previously listed values.
+
+==== JsonLinker
+Data storage is managed by the `JsonLinker` class. It is instantiated in the program as an attribute of `MainWindow` and has a unique public method: ```cpp std::map<QString, ExamInfo> &collectFields(QStringList const &filePaths, QStringList const &jsonFilePaths)```. This method takes the paths of previously selected scan and JSON files and aims to associate a scan to its corresponding JSON by matching their file names. 
+
+During this method's execution, a map (```cpp std::map<QString, ExamInfo> fileExamMap```) associating an exam identifier (e.g. 1-0-0) with an `ExamInfo` object is initialised by the  ```cpp void initialiseMaps(QStringList const &jsonPath)``` method. This process works by going through each JSON file path from the path list given in the method's argument. For each JSON file, the data is loaded into a `dataCopieJSON` pointer by calling ```cpp dataCopieJSON *loadAndGetJsonCoords(QString const &jsonPath)```. The data is loaded with an object from the `JSONReader` class that is instantiated as an attribute of `JsonLinker`. Next, an ExamInfo object is created and filled with `CopyInfo`, `PageInfo` and `FieldInfo` objects depending to the JSON's data.
+
+After the map's initialisation, the list containing every scan path is iterated through and the path of already existing pages is updated to the scan's path. If a file is not specified in any JSON, a dummy object will be created and inserted into the structure. Lastly, the map is returned and will be used to initialise the evaluation tables.
+
 
 === Saving and Restoring Data
 When a project is created, the same paths that are being loaded in `jsonFilePaths` and `scanFilePaths` are also stored in the save data (`data.json`) of the project. Those are the only informations that are being saved by the software at its current state.
@@ -188,12 +218,30 @@ When a project is created, the same paths that are being loaded in `jsonFilePath
 Whenever a user open a `data.json` save file via the main menu, it will load the paths that were saved previously into the `jsonFilePaths` and `scanFilePaths` variables. The software will then drop us to the evaluation menu.
 
 == Evaluation Table <table>
-What’s working
-- [x] Sort button that allows one to hide or display specific columns of the table
-- [x] Field view checkbox that change’s the table’s view from grouped to detailed
-- [x] Table that details each Exam, Paper, Page, field and syntax of an exam paper (field or grouped syntax depending on the view)
-- [x] Interaction between table and preview that displays data according to a cell’s column
-- [x] Basic interactions with the preview, such as zoom operations, previous page/next page operations within a single Paper, and different interactions with the fields based on their type.
+=== TableBox
+The class `TableBox` is used as the main evaluation layout containing every component directly linked to the evaluation table. It is instantiated inside ```cpp void MainWindow::createEvaluationView()``` and receives as arguments the previously initialised map containing every `ExamInfo` retrieved from the selected files, the parent of a `QDockedWidget` which is the `Mainwindow` itself and its parent window which is the layout it is stored in.
+
+`TableBox` contains several methods and attributes, half is used to instantiate the tables and the other half are used for the search features. 
+
+=== SortDock
+In order to display or hide specific columns of the table, the `sortDock` object from the `QDockWidget` class  is displayed after pressing on the `sortButton` object from the `QPushButton` class. The dock is initialised through ```cpp void TableBox::initTableFilter()``` and contains a layout that gathers several `QCheckBox` objects that each are connected to a method that will be responsible for hiding or showing the corresponding column. 
+
+Here are some links to the documentation concerning the previously mentionned classes: #link("https://doc.qt.io/qt-6/qdockwidget.html")[QDockWidget], #link("https://doc.qt.io/qt-6/qpushbutton.html")[QPushButton] and #link("https://doc.qt.io/qt-6/qcheckbox.html")[QCheckBox].
+
+=== SortTable
+The `SortTable` class is an abstract class that extends the `QTableWidget` class. The tables' data comes from the ```cpp std::map<QString, ExamInfo> &examMap``` attribute that is initialised when the tables are first instantiated in the `TableBox`'s constructor. This class serves as template for every evaluation table used in the GUI. The table details each exam, copy, page, field and syntax of an exam paper (field or grouped syntax depending on the view) with columns that share the same name. 
+
+In order to simulate the grouping or unfolding of table cells, two tables `groupTable` and `fieldTable` are instantiated from custom classes called `GroupViewTable` and `FieldViewTable` that heritate from `SortTable`.  This map is issued from the previous file association done by `JsonLinked`, it contains every information about the selected exam files. 
+
+To fill in the tables, each method is responsible for inserting a specific structure. The `ExamInfo` objects from the map are unfolded in order to extract `CopyInfo`, `PageInfo` and `FieldInfo` objects and add them into  `QTableWidgetItem` objects as `QVariants` for them to be easily accessible from a table cell. The main difference between `GroupViewTable` and `FieldViewTable` is that at the end of each insertion, `GroupViewTable` sets the cells span to a specific value so that common cells are grouped as one unique cell. It is during the filling process that any error concerning a copy or a page is communicated to the user.
+
+Back to the `TableBox`, it is possible to switch between both tables thanks to the `fieldViewToggle` from the `QCheckBox` class. The `sortTableList` object is a `QList` that contains `SortTable` pointers and is used to store both tables. When toggling from one table to another, the `actualTable` attribute which is a `SortTable` pointer changes to the pointer of the other table in the list so that every operation is applied to the currently displayed table. The switch also considers the current table's scrollbars position so that the same parameters can be applied to the other table upon switching. The same can be done with the columns size thanks to this slot ```cpp &TableBox::synchronizeColumnWidth```.
+
+More information about these classes: #link("https://doc.qt.io/qt-6/qtablewidget.html")[QTableWidget], #link("https://doc.qt.io/qt-6/qtablewidgetitem.html")[QTableWidgetItem] and #link("https://doc.qt.io/qt-6/qvariant.html")[QVariant].
+
+
+=== Interaction between Table and Preview
+In order to display the content of a clicked table cell in the preview, both `groupTable` and `fieldTable` are connected so that when they receive a ```cpp &QTableWidget::cellClicked``` signal, the `TableBox` class will call the following slot: ```cpp &TableBox::collectData```. This slot will check the item clicked by the user on the currently displayed table and if it exists, it will firstly collect the data stored in the corresponding `ExamInfo` class. If the data is not ```cpp NULL```, the slot will fill a `QStringList` with the paths of the files to display according to the column the item is situated in. If the column is *Field*, the method will also instantiate a `QString` with the field's name so that the preview can display an isolate it from the rest of the page. Lastly will the acquired information, the slot will emit a signal ```cpp &TableBox::sendDataToPreview``` so that the preview can receive the correct information. `TableBox` and `ExamPreview` are connected in the `Mainwindow` class.
 
 == Search Function within the Table
 
