@@ -350,7 +350,7 @@ caption:"here the four latest copies are showed"
 - #text(fill: rgb("#2CBEC0"), [Searchbar : ]) First, the help for the user is missing. It could be great to have a reminder on the search format.
   The fuzzy search only work for the simple and multiple text search due to do a lack of time for implement it for the tag search.
   Finally, the atomic search work only for the tag search. In fact, if the user do an atomic search on a multiple text search it will try to search
-  the joint of the words. For the tag search, #link(<refImple>)[we have to think in a completely different way to implement this feature].
+  the joint of the words. For the tag search, #link(<refImple>)[we have to think in a completely different way to implement this feature]. A more complete and powerful search tool with functionalities as comparison with operator for examples.
 
 - #text(fill: rgb("#2CBEC0"), [Table : ])A column containing the value of a field to allow the user to modify a it directly from the table was initially requested but could not be implemented do to lack of time. Currently, the GUI will notify the user of missing or unassociated files but we did not have the time to implement the feature that can help fix those issues. This version of the GUI only displays items in the table without offering the possibility to modify them. Hence, users will not be able to modify or remove any cell manually.
 
