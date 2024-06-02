@@ -145,7 +145,18 @@
     unchecked: sym.ballot, 
     checked: sym.ballot.x
   )
-
+  show heading : it =>{
+    if it.level > 2 {
+      set text(
+        // fill: rgb("#2CBEC0"),
+        // font: "Noto Sans"
+      )
+    [#it]
+    } else {
+    [#it]
+    }
+  }
+  
   pagebreak()
   doc
 }
