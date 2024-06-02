@@ -92,21 +92,22 @@ Dans l'ensemble, ce projet m'a permis d'acquérir beaucoup d'expérience en ce q
 Durant ce semestre, j'ai implémenté les modules de visualisation des pages ainsi qu'un utilitaire de lecture de fichiers JSON. L'utilité première de la classe `ExamPreview` est  de *visualiser* et d'*interagir* avec les pages des copies afin de montrer à l'utilisateur les éléments reconnus par le programme, d'apprécier la qualité de la reconnaissance automatique, et de modifier/calibrer l'interprétation du scan au besoin.\
 L'*utilitaire de lecture de fichiers JSON* à été relativement facile à mettre en oeuvre par rapport au reste du projet. Les classes de bases implémentées par Qt ont amplement suffit à obtenir un utilitaire satisfaisant, nous permettant d'extraire les données pertinentes du fichier. Il sera de plus facile pour les développeurs suivants d'ajouter des champs à extraire, de séparer les différents types de champs en plusieurs liste, de modifier la taille des pages... Des messages d'erreurs ont également été ajoutés à chaque étape de la conversion du JSON pour faciliter le débogage.\
 La partie *visualisation* de l'interface doit permettre de montrer à la fois la page sélectionnée en entier ainsi que des champs en particulier. Cela a été implémenté avec un `QDialog` et un `QStackedWidget` pour placer la preview dans la fenêtre. \ 
-La fonctionnalité de preview a été implémentée 
-Au final, ce projet m'a permit d'apprendre à utiliser le langage C++ et de comprendre les bases de l'utilisation des librairies de Qt, en particulier les `QWidgets` et le module `QGraphicsView`. J'ai également pu approfondir mes connaissances en IHM, car la conception d'une interface  J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Qt en essayant d'utiliser des classes non adaptées au besoin. De ce fait il m'a fallu remanier plusieures parties du programme afin d'obtenir un résultat agréable à utiliser pour l'utilisateur, et maintenable par l'équipe suivante. \
+La fonctionnalité de preview a été implémentée en héritant des classes du framework `Graphics View`. J'ai donc séparé les composants de manière logique, où chaque élément est responsable d'une fonctionnalité du programme. \
+`ExamPreview` est responsable des mises à l'échelle et des interactions non transformantes. \
+`ExamScene` est un canevas dans lequel sont instanciés les items, tel que les pages, les champs et le masque de page qui sont donc tous des fils de la scène (la scène doit les instancier et les détruire). Le processus a nécessité de multiples remaniement à mesure que je me familiarisais des fonctionnalités de Qt.\
+La *communication* entre la table et la preview a été gérée par Marco et moi-même, mais uniquement dans un sens : la Table n'est pas informé des changements ayant lieu dans la preview. \
+Au final, ce projet m'a permit d'*apprendre à utiliser le langage C++* et de comprendre les bases de l'utilisation des librairies de Qt, en particulier les `QWidgets` et le module `QGraphicsView`. J'ai également pu approfondir mes connaissances en IHM, car la conception d'une interface en prenant en compte les considérations d'une personne extérieure est un exercice plus complexe que celui inclus dans le syllabus. J'ai rencontré quelques difficultés du fait de mon manque d'expérience avec Qt en essayant d'utiliser des classes non adaptées au besoin. De ce fait il m'a fallu remanier plusieures parties du programme afin d'obtenir un résultat agréable à utiliser pour l'utilisateur, et maintenable par l'équipe suivante. \
 Cependant, malgré mes efforts, j'ai découvert une divergence entre la position supposée des `MarkerItems` et leur position réelle. Les Objets ont l'air bien positionnés sur la page mais sont en réalité tous situés à l'origine, avec une forme positionnée au bon endroit.
 
 
-= Échéancier mis à jour 
+#pagebreak(weak: true)
+= Échéancier final 
 #figure(
   image(
     "gantt final.png"
     )
 )
 
-
-
-#pagebreak(weak: true)
 = Répartition des tâches en %
 
 #let a = table.cell(        // 25%
@@ -152,7 +153,7 @@ Cependant, malgré mes efforts, j'ai découvert une divergence entre la position
 )
 
 #pagebreak(weak: true)
-= Description des tâches
+= Description et statut des tâches
 #linebreak()
 - [x] *Capture du Besoin*
 - [x] *Pilotage de projet*
