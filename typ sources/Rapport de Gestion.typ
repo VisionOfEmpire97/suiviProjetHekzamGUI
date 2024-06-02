@@ -37,17 +37,26 @@
 = Retours personnels
 
 == Emilien SANCHEZ
-La première partie du projet consistait, pour ma part, à travailler sur la *réalisation des exigences fonctionnelles*, des cas de test et des plans de test en se basant sur le prototype moyenne fidélité, en duo avec Nathan. 
+Le projet se divisant en différentes phases, mes tâches ont évolué au fil de son avancement.
 
-La régularité des réunions de groupes et des rencontres avec notre responsable de projet nous a permis de rapidement identifier et éclaircir les différentes zones d’ombres du sujet.
+La première partie du projet consistait, pour ma part, à travailler sur la *réalisation des exigences fonctionnelles*, des cas de test et des plans de test en se basant sur le premier prototype moyenne fidélité, en duo avec Nathan. 
+La régularité des réunions de groupe et des rencontres avec notre responsable de projet nous a permis de rapidement identifier et éclaircir les différentes zones d’ombre du sujet.
 
-Une fois le prototype validé, nous sommes passé à la seconde phase, la programmation. J’ai travaillé en collaboration avec Marco sur le tableau servant à lister et rechercher des copies. Nous nous sommes divisés les tâches: je devais personnellement m’occuper de la barre de recherche. 
+Une fois le prototype validé, nous sommes passés à la seconde phase, la programmation. 
+J'ai travaillé avec Marco sur le tableau utilisé pour lister et rechercher des copies. Nous avons partagé les tâches entre nous deux : j'étais personnellement responsable de la barre de recherche.
 
 Une des difficultés fut le choix entre utiliser un `QTableWidget` ou un `QStandardItemModel`, un `QSortFilterProxyModel` et une `QTableView` (c’est un affichage tableau suivant l’architecture Model/View en trois composants). Nous avons décidé de partir sur la `QTableWidget`, malgré son manque de flexibilité, pour sa lisibilité et facilité de compréhension. 
 
-Pour la barre de recherche, je devais programmer 2 fonctionnalités : une recherche fonctionnant comme un ctrl+f, qui doit nous permettre de faire ressortir n’importe quel texte. La deuxième fonctionnalité était la recherche par tag. Je n’ai pas eu de difficulté particulière lors de la programmation.
+Concernant la barre de recherche, elle permet de filtrer l'affichage, par exemple, par copie, page et de nombreux autres tags.
+Nous pouvons séparer les différents types de recherche en trois parties : tout d'abord, la *recherche simple* : c'est la possibilité de rechercher un certain mot ou une certaine partie d'un mot dans tout le tableau. Deuxièmement, nous avons la *recherche de texte multiple* : elle permet à l'utilisateur de rechercher un groupe de mots. Pour être plus précis, mon algorithme de recherche compare chaque cellule avec le mot numéro 1 du groupe ou le numéro 2 ou le numéro 3, … Et enfin, nous avons la *recherche par tag *: elle permet de rechercher un mot ou un groupe de mots dans une certaine colonne.
 
-Nous avons, en parallèle, mis en commun nos parties ce qui a généré différents problèmes d’affichage en fonction des systèmes d’exploitation. Une fois les problèmes réglés, il nous restera entre autre à définir un modèle de données pour les fichiers de l’utilisateur ainsi qu’à faire communiquer nos différents composants.
+Cette dernière a été la fonctionnalité la plus complexe à implémenter. Elle m'a obligé à revoir l'entièreté de mon code, car celui n'était pas assez modulaire. Après un court temps de recherches, je me suis rappelé une notion rapidement vue en cours de Structure Discrète 3 : les *expressions régulières*. En plus d'offrir des performances plus intéressantes que les comparaisons entre les chaînes de caractères, elles offrent une certaine modularité dans le format de recherche.
+
+Après avoir mis en œuvre ces trois fonctionnalités, notre tuteur m'a parlé de ce que nous appelons la *recherche floue* (fuzzy search). C'est un algorithme qui implémente le concept de *distance de Levenshtein*. C'est la distance entre les lettres de deux mots différents. Si la recherche de l'utilisateur ne donne aucune réponse, l'algorithme suggère les mots les plus proches. J'ai décidé de montrer au maximum les trois premiers mots les plus proches.
+J'ai également ajouté la possibilité d'effectuer une *recherche atomique*.
+Cependant, due à l'implémentation tardive de ces 2 fonctionnalités, elles ne fonctionnent pas sur la recherche par tags.
+
+En conclusion, ce projet m'a beaucoup apporté. D'un point de vue technique, cela m'a permis de développer des connaissances en C++ et de découvrir la programmation avec Qt. Sur le plan personnel et professionnel, ce projet m'a permis de mettre en pratique mes compétences de collaboration, au sein d'une équipe, acquises lors de ma licence.
 
 == Fabio YABAR
 Lors de ce projet, j’eu trois tâches majeures à accomplir, devant implémenter et maintenir l’*interface générale* du programme, manipuler les *données de sauvegarde* et la *configuration utilisateur* et enfin créer une *CLI*. Je vais m’étendre sur chacun de ces points afin d’en relever les réussites et les échecs, pour finalement conclure sur ce projet.
