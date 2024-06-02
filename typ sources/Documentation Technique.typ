@@ -353,15 +353,12 @@ caption:"here the four latest copies are showed"
   Finally, the atomic search work only for the tag search. In fact, if the user do an atomic search on a multiple text search it will try to search
   the joint of the words. For the tag search, #link(<refImple>)[we have to think in a completely different way to implement this feature].
 
+- #text(fill: rgb("#2CBEC0"), [Table : ])A column containing the value of a field to allow the user to modify a it directly from the table was initially requested but could not be implemented do to lack of time. Currently, the GUI will notify the user of missing or unassociated files but we did not have the time to implement the feature that can help fix those issues. This version of the GUI only displays items in the table without offering the possibility to modify them. Hence, users will not be able to modify or remove any cell manually.
+
 - #text(fill: rgb("#2CBEC0"), [Preview : ])The `FieldItem::getRect` is used to inform the `QGraphicsView` of the new region to display when the user clicks on a "field" cell inside the Table. The call stack is :\
   #par(justify: false,[`FieldItem::getRect -> ExamSinglePage::getFieldPos -> Examscene::setROI -> ExamViewPort::fitROIInView`.])
   But `fitROIInView` wasn't implemented due to the lack of time.
-- [ ] Column that specifies a field’s value (checked/unchecked or sentence) and the ability to modify it directly from the table
-- [ ] Associate missing files once the table’s data was initialized
-- [ ] Delete an exam, copy or a page from the table
-- [ ] Mark a field as modified in the table
 
-<<<<<<< Updated upstream
 = What could be improved <refImple>
 - The executable doesn't have a logo, so a per-platform generic logo like #box(image("genericlogo1.png", height: 1em)) on Linux is used by default.
 - The Regex are good but the use of them to compare the text in the cells brings too much difficulty when we want to change
@@ -373,16 +370,16 @@ caption:"here the four latest copies are showed"
 - The second preview viewport (only visible when the primary preview is present in another window) has been left unused for now. It might be a good idea to reconsider if it's useful or not.<secondpreview>
 - the image is reloaded every time we click on a field. Could be an area of improvement if you have the time.
 - The CLI could have been implemented with a `QCommandLineParser` instead of doing it from ground-up like we did. It may end up being simpler to implement and possesses an already built in help and version option. Because the CLI was implemented on the last week of the project, we couldn't dive into the #link("https://doc.qt.io/qt-6/qcommandlineparser.html")[documentation] deep enough.
+- The data structures used to store information about exams might be subject to change since some decisions made were very specific on the test cases we were using to test different features of the program.
 == Preview module
 - Hiding the mouse cursor when moving a corner of a marker could improve accuracy.
 
 == What needs to be removed
 
-- [ ] The `JsonLinker` class associates pages with their corresponding Json file by matching the file names
-- [ ] This association also allows the exam, copies, pages and fields to be initialized using specific data structures
-- [ ] The `PageInfo` data structure contains an attribute that describes the path of the file it is associated with
-- [ ] All of these points will not be necessary once the library allowing a page to be associated with its json file is properly implemented
-- [ ] I used the `mViewPort` and `mJSON` namespaces in some parts of the code, but they might be useless, remove them if you will.
+- The `JsonLinker` class associates pages with their corresponding Json file by matching the file names. This class was only useful since we had no other way of associating files. Ultimately, Hekzam will contain a library supports this feature. 
+- This association was also responsible for initialising exam, copies, pages and fields into the dedicated data structures `ExamInfo`, `CopyInfo`, `PageInfo` and `FieldInfo`. Those structures will need to be initialised differently.
+- The `PageInfo` data structure contains an attribute that describes the path of the file it is associated with this will no longer be needed in the final version since the association library will take care of that.
+- I used the `mViewPort` and `mJSON` namespaces in some parts of the code, but they might be useless, remove them if you will.
 
 = OS specific issues
 == MacOS
