@@ -77,7 +77,7 @@
         }
       ]
       #parbreak()
-      *Encadrant* : Millian Poquet - Maître de conférences à l'Université Paul Sabatier - Chercheur à l'IRIT
+      *Supervisor* : Millian Poquet - Associate Professor at Paul Sabatier University - Researcher at IRIT
     ]
   )
 
@@ -99,7 +99,7 @@
     ]),
     ..authors.map(author =>
     [
-      #set text(size: 10pt)
+      #set text(size: 10pt, hyphenate: false)
       #author.affiliation
       #author.email
     ])

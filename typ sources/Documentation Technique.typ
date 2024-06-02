@@ -1,30 +1,30 @@
 #import "template.typ" : base, dirpath
 #show: doc => base(
   // left_header:[],
-  right_header : [Equipe scan-GUI-Printemps-2024],
-  title: [Projet Hekzam-GUI - Printemps 2024],
+  right_header : [scan-GUI-Spring-2024 Team],
+  title: [Hekzam-GUI Project - Spring 2024],
   subtitle: [Technical documentation],
   version: [1.0],
   authors:(
     (
-    name: "REGRAGUI MARTINS Marco",
-    affiliation:"Université Paul Sabatier",
-    email:"Licence Informatique",
+      name: "REGRAGUI MARTINS Marco",
+      affiliation:"Paul Sabatier University",
+      email:"Computer Science undergraduate",
     ),
     ( 
-    name: "ROSET Nathan",
-    affiliation:"Université Paul Sabatier",
-    email:"Licence Informatique",
+      name: "ROSET Nathan",
+      affiliation:"Paul Sabatier University",
+      email:"Computer Science undergraduate",
     ),
     (
-    name: "SANCHEZ Emilien",
-    affiliation:"Université Paul Sabatier",
-    email:"Licence Informatique",
+      name: "SANCHEZ Emilien",
+      affiliation:"Paul Sabatier University",
+      email:"Computer Science undergraduate",
     ),
     (
-    name: "YABAR Fabio",
-    affiliation:"Université Paul Sabatier",
-    email:"Licence Informatique",
+      name: "YABAR Fabio",
+      affiliation:"Paul Sabatier University",
+      email:"Computer Science undergraduate",
     ) 
   ),
     doc
